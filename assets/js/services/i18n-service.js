@@ -3,6 +3,7 @@ const ATTRIBUTE_BINDINGS = Object.freeze({
   'data-i18n-aria-label': 'aria-label',
   'data-i18n-title': 'title',
   'data-i18n-content': 'content',
+  'data-i18n-alt': 'alt',
 });
 
 const DEFAULT_LOCALES_URL = new URL('../../locales/', import.meta.url);
