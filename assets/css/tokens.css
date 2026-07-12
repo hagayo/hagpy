@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap');
+@import url('./home.css');
+@import url('./lab.css');
+@import url('./learner.css');
+@import url('./installation.css');
+@import url('./final-project.css');
+@import url('./deep-lessons.css');
+:root{--font-ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;--font-he:"Rubik",Arial,sans-serif;--paper:#fbfaf5;--surface:#fff;--soft:#edf6f2;--ink:#153446;--muted:#617681;--line:#dbe5e3;--brand:#0d9472;--blue:#176d8a;--orange:#ef6b3d;--yellow:#f3bb43;--code:#102f42;--shadow:0 16px 44px rgba(21,52,70,.12);--header:68px;--sidebar:286px;--radius:12px}html[data-theme="dark"]{--paper:#14242a;--surface:#1c3138;--soft:#192e33;--ink:#e7f1ee;--muted:#a9bcb7;--line:#365158;--brand:#58d3aa;--blue:#72bfd1;--code:#0b1d25;--shadow:0 18px 50px rgba(0,0,0,.28);color-scheme:dark}

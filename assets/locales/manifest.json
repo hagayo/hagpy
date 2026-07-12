@@ -1,0 +1,17 @@
+{
+  "defaultLocale": "en",
+  "locales": {
+    "en": {
+      "file": "en.json",
+      "direction": "ltr",
+      "label": "English",
+      "shortLabel": "EN"
+    },
+    "he": {
+      "file": "he.json",
+      "direction": "rtl",
+      "label": "עברית",
+      "shortLabel": "עב"
+    }
+  }
+}

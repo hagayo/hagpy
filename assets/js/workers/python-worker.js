@@ -1,0 +1,5 @@
+const PYODIDE_URL='https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js';let runtimePromise;
+async function runtime(){if(!runtimePromise){runtimePromise=(async()=>{importScripts(PYODIDE_URL);const pyodide=await loadPyodide();return pyodide})()}return runtimePromise}
+self.postMessage({type:'booting'});
+self.onmessage=async({data})=>{if(data.type!=='run')return;try{const pyodide=await runtime();if(data.packages?.length)await pyodide.loadPackage(data.packages);self.postMessage({type:'executing'});let output='';pyodide.setStdout({batched:value=>{output+=`${value}\n`}});pyodide.setStderr({batched:value=>{output+=`${value}\n`}});await pyodide.runPythonAsync(data.code);const tests=[];for(const test of data.tests){try{await pyodide.runPythonAsync(test.code);tests.push({name:test.name,passed:true})}catch(error){tests.push({name:test.name,passed:false,error:cleanError(error)})}}self.postMessage({type:'result',output:output.trimEnd(),tests})}catch(error){self.postMessage({type:'error',error:cleanError(error)})}}
+function cleanError(error){return String(error?.message??error).replace(/PythonError:\s*/,'').trim()}

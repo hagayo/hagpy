@@ -1,0 +1,9 @@
+{
+  "name": "hagpy-learning-platform",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.js",
+    "test": "node --test"
+  }
+}
