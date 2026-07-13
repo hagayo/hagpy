@@ -48,7 +48,7 @@ test('curriculum generates one page per lesson', async () => {
 test('first chapters follow the approved learning order', () => {
   assert.deepEqual(tracks.slice(0, 3).map(track => [track.id, track.he]), [
     ['start', 'מתחילים'],
-    ['first-project', 'פרוייקט ראשון'],
+    ['first-project', 'הפרוייקט הראשון שלנו'],
     ['python', 'יסודות Python']
   ]);
 
@@ -62,11 +62,19 @@ test('first chapters follow the approved learning order', () => {
   ]);
 
   assert.deepEqual(tracks[1].lessons.map(lesson => lesson.slug), [
-    'uv',
     'project-setup',
+    'uv',
     'first-html-site',
     'push-first-repository',
     'publish-github-pages'
+  ]);
+
+  assert.deepEqual(tracks[1].lessons.map(lesson => lesson.he), [
+    'הקמת פרוייקט וניהול ספריות',
+    'תלויות עם uv',
+    'בניית אתר מקומי',
+    'העלאת הפרויקט ל-GitHub',
+    'פרסום באמצעות GitHub Pages'
   ]);
 });
 
@@ -74,6 +82,7 @@ test('key Hebrew lesson names match the approved wording', () => {
   const bySlug = Object.fromEntries(lessons.map(lesson => [lesson.slug, lesson]));
 
   assert.equal(bySlug['verify-installation'].he, 'בדיקת ההתקנה');
-  assert.equal(bySlug['project-setup'].he, 'הקמת פרוייקט');
+  assert.equal(bySlug['project-setup'].he, 'הקמת פרוייקט וניהול ספריות');
+  assert.equal(bySlug.uv.he, 'תלויות עם uv');
   assert.equal(bySlug['first-html-site'].he, 'בניית אתר מקומי');
 });
