@@ -1,11 +1,13 @@
 export class SearchService {
   constructor(items) {
-    this.items = items;
+    this.items = Array.isArray(items) ? items : [];
   }
 
   search(query, translate, locale) {
-    const term = query.trim().toLocaleLowerCase(locale);
+    const term = String(query ?? '').trim().toLocaleLowerCase(locale);
     if (!term) return this.items;
-    return this.items.filter(item => translate(item.titleKey).toLocaleLowerCase(locale).includes(term));
+    return this.items.filter(item => (
+      String(translate(item.titleKey) ?? '').toLocaleLowerCase(locale).includes(term)
+    ));
   }
 }

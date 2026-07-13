@@ -1,3 +1,7 @@
+export function curriculumLessonsFrom(config) {
+  return Array.isArray(config?.curriculum?.lessons) ? config.curriculum.lessons : [];
+}
+
 export class LearnerController {
   constructor(service, eventBus, config, i18n) {
     this.service = service;
@@ -6,16 +10,17 @@ export class LearnerController {
     this.i18n = i18n;
     this.profile = service.loadProfile();
     this.progress = service.loadProgress();
+    this.lessons = [];
   }
 
   initialize() {
-    const lessons = this.config.curriculum.lessons ?? [];
-    this.progress.migrateSlugs(lessons);
-    this.progress.prune(lessons.map(item => item.id));
+    this.lessons = curriculumLessonsFrom(this.config);
+    this.progress.migrateSlugs(this.lessons);
+    this.progress.prune(this.lessons.map(item => item.id));
     this.#renderShell();
     this.#bind();
     if (this.config.lessonId) {
-      const lesson = lessons.find(item => item.id === this.config.lessonId);
+      const lesson = this.lessons.find(item => item.id === this.config.lessonId);
       this.progress.visit(this.config.lessonId, lesson?.position ?? 0);
       this.service.saveProgress(this.progress);
     }
@@ -108,7 +113,7 @@ export class LearnerController {
 
     const continueLink = document.querySelector('[data-continue-link]');
     if (continueLink && this.progress.lastLessonId) {
-      const lesson = this.config.curriculum.lessons.find(item => item.id === this.progress.lastLessonId);
+      const lesson = this.lessons.find(item => item.id === this.progress.lastLessonId);
       continueLink.href = lesson ? `pages/${lesson.slug}.html` : '#';
       continueLink.hidden = false;
       continueLink.querySelector('b').textContent = this.i18n.t('learner.continueFrom', {

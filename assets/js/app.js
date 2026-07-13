@@ -12,7 +12,7 @@ import { NavigationController } from './controllers/navigation-controller.js';
 import { CurriculumController } from './controllers/curriculum-controller.js';
 import { SearchController } from './controllers/search-controller.js';
 import { LessonController } from './controllers/lesson-controller.js';
-import { LearnerController } from './controllers/learner-controller.js';
+import { LearnerController } from './controllers/learner-controller.js?v=20260713';
 import { CodeExerciseController } from './controllers/code-exercise-controller.js';
 
 function readPageConfig() {

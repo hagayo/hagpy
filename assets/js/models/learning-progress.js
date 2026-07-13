@@ -2,7 +2,7 @@ export class LearningProgress {
   constructor({
     lastLessonId = null,
     lastLessonSlug = null,
-    highestLessonPosition = 0,
+    highestLessonPosition = null,
     highestLessonIndex = -1,
     completedLessonIds = [],
     completedLessons = [],
@@ -11,11 +11,15 @@ export class LearningProgress {
   } = {}) {
     this.lastLessonId = Number.isInteger(lastLessonId) ? lastLessonId : null;
     this.lastLessonSlug = lastLessonSlug;
-    this.highestLessonPosition = Number.isInteger(highestLessonPosition)
-      ? highestLessonPosition
-      : highestLessonIndex + 1;
+    const migratedPosition = Number.isInteger(highestLessonIndex) ? highestLessonIndex + 1 : 0;
+    this.highestLessonPosition = Math.max(
+      0,
+      Number.isInteger(highestLessonPosition) ? highestLessonPosition : migratedPosition,
+    );
     this.completedLessonIds = new Set(
-      Array.isArray(completedLessonIds) ? completedLessonIds.filter(Number.isInteger) : [],
+      Array.isArray(completedLessonIds)
+        ? completedLessonIds.filter(id => Number.isInteger(id) && id > 0)
+        : [],
     );
     this.legacyCompletedSlugs = Array.isArray(completedLessons) ? completedLessons : [];
     this.passedExercises = passedExercises && typeof passedExercises === 'object' ? { ...passedExercises } : {};
@@ -60,7 +64,8 @@ export class LearningProgress {
   }
 
   percentage(total) {
-    return total > 0 ? Math.round((this.completedLessonIds.size / total) * 100) : 0;
+    if (!Number.isFinite(total) || total <= 0) return 0;
+    return Math.min(100, Math.round((this.completedLessonIds.size / total) * 100));
   }
 
   toJSON() {
