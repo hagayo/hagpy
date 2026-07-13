@@ -2,12 +2,12 @@
 id: 5
 slug: verify-installation
 title: בדיקת ההתקנה
-intro: מריצים רשימת בדיקה שמוכיחה כי Git, uv, Python ו-VS Code זמינים.
+intro: מריצים רשימת בדיקה שמוכיחה כי Git, uv ו-Python זמינים.
 layout: legacy-installation
 ---
 
 :::explanation title="הרעיון המרכזי"
-מריצים רשימת בדיקה שמוכיחה כי Git, uv, Python ו-VS Code זמינים.
+מריצים רשימת בדיקה שמוכיחה כי Git, uv ו-Python זמינים.
 :::
 
 :::codeExample title="דוגמה מעשית" filename="example.py"
@@ -15,7 +15,6 @@ layout: legacy-installation
 git --version
 uv --version
 uv run python --version
-code --version
 ```
 :::
 

@@ -7,6 +7,12 @@ import { loadCurriculum } from '../content/lesson-loader.js';
 
 const root = new URL('../', import.meta.url);
 const { lessons, tracks } = await loadCurriculum(curriculumTracks, { openingLessonId });
+const forbiddenEditorReferences = new RegExp([
+  ['VS', 'Code'].join(' '),
+  ['Visual', 'Studio', 'Code'].join(' '),
+  ['code', '--version'].join(' '),
+  `code ${'\\.'}`,
+].join('|'), 'i');
 
 test('every locale catalog has the same non-empty key set', async () => {
   const manifest = JSON.parse(await readFile(new URL('assets/locales/manifest.json', root), 'utf8'));
@@ -145,4 +151,30 @@ test('key Hebrew lesson names match the approved wording', () => {
   assert.equal(bySlug['project-setup'].he, 'הקמת פרוייקט וניהול ספריות');
   assert.equal(bySlug.uv.he, 'תלויות עם uv');
   assert.equal(bySlug['first-html-site'].he, 'בניית אתר מקומי');
+});
+
+test('first Windows lesson renders commands, success checks and semantic closing sections', async () => {
+  const html = await readFile(new URL('pages/windows-setup.html', root), 'utf8');
+  assert.equal((html.match(/class="lesson-section command-step"/g) ?? []).length, 7);
+  assert.equal((html.match(/class="success-check"/g) ?? []).length, 7);
+  assert.match(html, /\$PSVersionTable\.PSVersion/);
+  assert.match(html, /Test-NetConnection github\.com -Port 443/);
+  assert.match(html, /class="lesson-section lesson-summary"/);
+  assert.match(html, /class="lesson-terms-grid"/);
+  assert.doesNotMatch(html, forbiddenEditorReferences);
+});
+
+test('the learning path does not require a specific text editor', async () => {
+  const sourceFiles = [
+    new URL('content/curriculum.js', root),
+    new URL('content/install-guides.js', root),
+    ...lessonRecords.flatMap(record => [
+      new URL(`content/lessons/${record.source}.en.md`, root),
+      new URL(`content/lessons/${record.source}.he.md`, root),
+    ]),
+  ];
+  const sources = await Promise.all(sourceFiles.map(file => readFile(file, 'utf8')));
+  for (const source of sources) {
+    assert.doesNotMatch(source, forbiddenEditorReferences);
+  }
 });

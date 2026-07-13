@@ -1,0 +1,53 @@
+.command-step > p {
+  max-width: 760px;
+}
+
+.success-check {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--brand) 32%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+}
+
+.success-check b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--brand);
+}
+
+.success-check p {
+  margin: 0;
+}
+
+.lesson-summary {
+  border-radius: var(--radius);
+}
+
+.lesson-terms-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.lesson-term {
+  padding: 15px 17px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+}
+
+.lesson-term strong {
+  color: var(--ink);
+}
+
+.lesson-term p {
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+@media (max-width: 650px) {
+  .lesson-terms-grid {
+    grid-template-columns: 1fr;
+  }
+}

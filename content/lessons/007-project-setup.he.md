@@ -2,12 +2,12 @@
 id: 7
 slug: project-setup
 title: הקמת פרוייקט וניהול ספריות
-intro: יוצרים את פרויקט הקורס המקומי הראשון באמצעות uv ופותחים אותו ב-VS Code.
+intro: יוצרים את פרויקט הקורס המקומי הראשון באמצעות uv ופותחים אותו בעורך לבחירתכם.
 layout: legacy-installation
 ---
 
 :::explanation title="הרעיון המרכזי"
-יוצרים את פרויקט הקורס המקומי הראשון באמצעות uv ופותחים אותו ב-VS Code.
+יוצרים את פרויקט הקורס המקומי הראשון באמצעות uv ופותחים אותו בעורך לבחירתכם.
 :::
 
 :::codeExample title="דוגמה מעשית" filename="example.py"
@@ -15,12 +15,11 @@ layout: legacy-installation
 cd C:\AI-DEV-2026
 uv init --bare --vcs none hagpy-first-site
 cd hagpy-first-site
-code .
 ```
 :::
 
 :::checklist title="נקודות חשובות"
 - יוצרים את הפרויקט בתוך תיקיית העבודה
 - משתמשים ב-uv init בצורה מכוונת
-- פותחים את VS Code מתוך שורש הפרויקט
+- פותחים את שורש הפרויקט בעורך לבחירתכם
 :::

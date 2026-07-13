@@ -10,7 +10,7 @@ const root = new URL('../', import.meta.url);
 const pagesDirectory = new URL('pages/', root);
 const localesDirectory = new URL('assets/locales/', root);
 const dataDirectory = new URL('assets/data/', root);
-const assetVersion = '20260713';
+const assetVersion = '20260713-2';
 const catalogs = { en: Object.create(null), he: Object.create(null) };
 
 await Promise.all([
@@ -185,6 +185,64 @@ function codeFromMarkdown(content) {
   return match ? match[2].trim() : content.trim();
 }
 
+function segmentsFromMarkdown(content) {
+  const segments = [];
+  const codePattern = /```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g;
+  let cursor = 0;
+  let match = codePattern.exec(content);
+
+  const appendParagraphs = text => {
+    text.split(/\n{2,}/)
+      .map(paragraph => paragraph.trim())
+      .filter(Boolean)
+      .forEach(paragraph => segments.push({ type: 'paragraph', content: paragraph }));
+  };
+
+  while (match) {
+    appendParagraphs(content.slice(cursor, match.index));
+    segments.push({ type: 'code', language: match[1], content: match[2].trim() });
+    cursor = match.index + match[0].length;
+    match = codePattern.exec(content);
+  }
+  appendParagraphs(content.slice(cursor));
+  return segments;
+}
+
+function termItemsFromMarkdown(content) {
+  return listItemsFromMarkdown(content).map(item => {
+    const separator = item.indexOf(':');
+    if (separator === -1) return { term: item, definition: '' };
+    return {
+      term: item.slice(0, separator).trim(),
+      definition: item.slice(separator + 1).trim(),
+    };
+  });
+}
+
+function localizedRichSegments(block, hebrewBlock, key, { successCheck = false } = {}) {
+  const englishSegments = segmentsFromMarkdown(block.content);
+  const hebrewSegments = segmentsFromMarkdown(hebrewBlock.content);
+  const lastParagraphIndex = englishSegments.reduce(
+    (last, segment, index) => segment.type === 'paragraph' ? index : last,
+    -1,
+  );
+
+  return englishSegments.map((segment, index) => {
+    if (segment.type === 'code') return codeBlock(segment.content, block.attrs.filename ?? 'PowerShell');
+    let english = segment.content;
+    let hebrew = hebrewSegments[index]?.type === 'paragraph'
+      ? hebrewSegments[index].content
+      : segment.content;
+    if (successCheck && index === lastParagraphIndex) {
+      english = english.replace(/^How do you know it worked\?\s*/i, '');
+      hebrew = hebrew.replace(/^איך יודעים שזה הצליח\?\s*/, '');
+    }
+    const paragraph = translated(`${key}.segments.${index}`, english, hebrew, 'p');
+    if (!successCheck || index !== lastParagraphIndex) return paragraph;
+    return `<div class="success-check">${translated('lesson.successCheck', 'How do you know it worked?', 'איך יודעים שזה הצליח?', 'b')}${paragraph}</div>`;
+  }).join('');
+}
+
 function blockLesson(item) {
   const blocks = item.blocksEn.map((block, index) => {
     const hebrewBlock = item.blocksHe[index] ?? block;
@@ -193,6 +251,27 @@ function blockLesson(item) {
 
     if (block.type === 'codeExample') {
       return `<section class="lesson-section">${title}${codeBlock(codeFromMarkdown(block.content), block.attrs.filename ?? 'example.py')}</section>`;
+    }
+
+    if (block.type === 'commandStep') {
+      return `<section class="lesson-section command-step">${title}${localizedRichSegments(block, hebrewBlock, key, { successCheck: true })}</section>`;
+    }
+
+    if (block.type === 'summary') {
+      const hebrewItems = listItemsFromMarkdown(hebrewBlock.content);
+      const items = listItemsFromMarkdown(block.content)
+        .map((itemText, itemIndex) => translated(`${key}.items.${itemIndex}`, itemText, hebrewItems[itemIndex] ?? itemText, 'li'))
+        .join('');
+      return `<section class="lesson-section lesson-summary">${title}<ul class="practice-list">${items}</ul></section>`;
+    }
+
+    if (block.type === 'terms') {
+      const hebrewTerms = termItemsFromMarkdown(hebrewBlock.content);
+      const terms = termItemsFromMarkdown(block.content).map((item, itemIndex) => {
+        const hebrewItem = hebrewTerms[itemIndex] ?? item;
+        return `<div class="lesson-term">${translated(`${key}.items.${itemIndex}.term`, item.term, hebrewItem.term, 'strong')}${translated(`${key}.items.${itemIndex}.definition`, item.definition, hebrewItem.definition, 'p')}</div>`;
+      }).join('');
+      return `<section class="lesson-section lesson-terms">${title}<div class="lesson-terms-grid">${terms}</div></section>`;
     }
 
     if (block.type === 'checklist') {
@@ -210,10 +289,7 @@ function blockLesson(item) {
     }
 
     if (block.type === 'exercise') {
-      const paragraphs = paragraphsFromMarkdown(block.content)
-        .map((paragraph, paragraphIndex) => translated(`${key}.paragraphs.${paragraphIndex}`, paragraph, paragraphsFromMarkdown(hebrewBlock.content)[paragraphIndex] ?? paragraph, 'p'))
-        .join('');
-      return `<section class="lesson-section"><div class="exercise">${title}${paragraphs}</div></section>`;
+      return `<section class="lesson-section"><div class="exercise">${title}${localizedRichSegments(block, hebrewBlock, key)}</div></section>`;
     }
 
     const paragraphs = paragraphsFromMarkdown(block.content)

@@ -2,12 +2,12 @@
 id: 5
 slug: verify-installation
 title: Verify the installation
-intro: Run one checklist that proves Git, uv, Python and VS Code are available.
+intro: Run one checklist that proves Git, uv and Python are available.
 layout: legacy-installation
 ---
 
 :::explanation title="The core idea"
-Run one checklist that proves Git, uv, Python and VS Code are available.
+Run one checklist that proves Git, uv and Python are available.
 :::
 
 :::codeExample title="Working example" filename="example.py"
@@ -15,7 +15,6 @@ Run one checklist that proves Git, uv, Python and VS Code are available.
 git --version
 uv --version
 uv run python --version
-code --version
 ```
 :::
 

@@ -16,6 +16,9 @@ globalThis.window = {
         },
       };
     }
+    if (url.pathname.endsWith('/curriculum.json')) {
+      return { ok: true, async json() { return { lessons: [], tracks: [] }; } };
+    }
     return { ok: true, async json() { return { key: 'value' }; } };
   },
 };
@@ -26,6 +29,7 @@ globalThis.document = {
 
 const { I18nService } = await import('../assets/js/services/i18n-service.js');
 const { PythonRunnerService } = await import('../assets/js/services/python-runner-service.js');
+const { CurriculumService } = await import('../assets/js/services/curriculum-service.js');
 
 test('production asset URLs are resolved from their owning modules', async () => {
   const i18n = new I18nService();
@@ -37,4 +41,10 @@ test('production asset URLs are resolved from their owning modules', async () =>
   const runner = new PythonRunnerService();
   assert.match(runner.workerUrl.pathname, /\/assets\/js\/workers\/python-worker\.js$/);
   assert.doesNotMatch(runner.workerUrl.href, /arbitrary\/deep/);
+
+  const curriculum = new CurriculumService();
+  await curriculum.load();
+  const curriculumUrl = requestedUrls.find(url => url.pathname.endsWith('/curriculum.json'));
+  assert.match(curriculumUrl.pathname, /\/assets\/data\/curriculum\.json$/);
+  assert.doesNotMatch(curriculumUrl.href, /assets\/js\/data/);
 });

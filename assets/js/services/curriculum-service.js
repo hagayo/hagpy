@@ -1,5 +1,5 @@
 export class CurriculumService {
-  constructor({ baseUrl = new URL('../data/', import.meta.url), fetcher = window.fetch.bind(window) } = {}) {
+  constructor({ baseUrl = new URL('../../data/', import.meta.url), fetcher = window.fetch.bind(window) } = {}) {
     this.baseUrl = baseUrl;
     this.fetcher = fetcher;
     this.curriculum = null;

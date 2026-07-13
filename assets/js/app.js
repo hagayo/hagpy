@@ -3,7 +3,7 @@ import { EventBus } from './core/event-bus.js';
 import { PreferencesService } from './services/preferences-service.js';
 import { LearnerStorageService } from './services/learner-storage-service.js';
 import { SearchService } from './services/search-service.js';
-import { CurriculumService } from './services/curriculum-service.js';
+import { CurriculumService } from './services/curriculum-service.js?v=20260713-2';
 import { PythonRunnerService } from './services/python-runner-service.js';
 import { I18nService } from './services/i18n-service.js';
 import { ThemeController } from './controllers/theme-controller.js';

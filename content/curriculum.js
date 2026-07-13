@@ -5,8 +5,8 @@ export const tracks = [
     id: 'start',
     en: 'Getting started',
     he: 'מתחילים',
-    descriptionEn: 'Prepare the local development environment deliberately: Windows, PowerShell, VS Code, Git, uv, Python and a clean verification checklist.',
-    descriptionHe: 'מכינים סביבת פיתוח מקומית בצורה מסודרת: Windows, PowerShell, VS Code, Git, uv, Python ורשימת בדיקה נקייה.',
+    descriptionEn: 'Prepare the local development environment deliberately: Windows, PowerShell, Git, uv, Python and a clean verification checklist.',
+    descriptionHe: 'מכינים סביבת פיתוח מקומית בצורה מסודרת: Windows, PowerShell, Git, uv, Python ורשימת בדיקה נקייה.',
     lessons: [1, 2, 3, 4, 5, 6],
   },
   {
