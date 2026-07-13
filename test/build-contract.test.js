@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
-import { readdir, readFile } from 'node:fs/promises';
+import { access, readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
-import { lessons, tracks } from '../content/curriculum.js';
+import { tracks as curriculumTracks } from '../content/curriculum.js';
+import { lessonRecords } from '../content/lesson-records.js';
+import { loadCurriculum } from '../content/lesson-loader.js';
 
 const root = new URL('../', import.meta.url);
+const { lessons, tracks } = await loadCurriculum(curriculumTracks);
 
 test('every locale catalog has the same non-empty key set', async () => {
   const manifest = JSON.parse(await readFile(new URL('assets/locales/manifest.json', root), 'utf8'));
@@ -45,6 +48,28 @@ test('curriculum generates one page per lesson', async () => {
   assert.deepEqual(htmlPages, expectedPages);
 });
 
+test('curriculum uses stable numeric ids and lesson content lives in Markdown', async () => {
+  assert.equal(lessons.length, 71);
+
+  const recordIds = new Set(lessonRecords.map(record => record.id));
+  assert.equal(recordIds.size, lessonRecords.length);
+
+  for (const track of curriculumTracks) {
+    assert.ok(Array.isArray(track.lessons));
+    assert.ok(track.lessons.length > 0);
+
+    for (const lessonId of track.lessons) {
+      assert.equal(typeof lessonId, 'number');
+      assert.ok(recordIds.has(lessonId), `missing lesson record for id ${lessonId}`);
+    }
+  }
+
+  for (const record of lessonRecords) {
+    await access(new URL(`content/lessons/${record.source}.en.md`, root));
+    await access(new URL(`content/lessons/${record.source}.he.md`, root));
+  }
+});
+
 test('first chapters follow the approved learning order', () => {
   assert.deepEqual(tracks.slice(0, 3).map(track => [track.id, track.he]), [
     ['start', 'מתחילים'],
@@ -52,22 +77,9 @@ test('first chapters follow the approved learning order', () => {
     ['python', 'יסודות Python']
   ]);
 
-  assert.deepEqual(tracks[0].lessons.map(lesson => lesson.slug), [
-    'windows-setup',
-    'install-git',
-    'install-uv-python',
-    'github-account-repo',
-    'verify-installation',
-    'setup-troubleshooting'
-  ]);
+  assert.deepEqual(curriculumTracks[0].lessons, [1, 2, 3, 4, 5, 6]);
 
-  assert.deepEqual(tracks[1].lessons.map(lesson => lesson.slug), [
-    'project-setup',
-    'uv',
-    'first-html-site',
-    'push-first-repository',
-    'publish-github-pages'
-  ]);
+  assert.deepEqual(curriculumTracks[1].lessons, [7, 8, 9, 10, 11]);
 
   assert.deepEqual(tracks[1].lessons.map(lesson => lesson.he), [
     'הקמת פרוייקט וניהול ספריות',

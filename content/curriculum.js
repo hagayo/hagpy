@@ -1,86 +1,143 @@
 export const tracks = [
-  { id:'start', en:'Getting started', he:'מתחילים', lessons:[
-    lesson('windows-setup','Windows 10/11 setup','הכנת Windows 10/11','Prepare a clean Windows development environment with PowerShell and VS Code.','מכינים סביבת פיתוח נקייה ב-Windows עם PowerShell ו-VS Code.','winget --version\ncode --version',['Use Windows 10 or 11','Run commands in PowerShell','Restart the terminal after installations'],['עובדים עם Windows 10 או 11','מריצים פקודות ב-PowerShell','פותחים Terminal מחדש לאחר התקנות']),
-    lesson('install-git','Install and configure Git','התקנה והגדרה של Git','Install Git for Windows and configure the identity attached to commits.','מתקינים Git for Windows ומגדירים את הזהות שמוצמדת ל-Commits.','git --version\ngit config --global user.name "Your Name"\ngit config --global user.email "you@example.com"',['Download Git only from the official site','Keep Git Credential Manager enabled','Use the email verified by GitHub'],['מורידים Git רק מהאתר הרשמי','משאירים את Git Credential Manager פעיל','משתמשים באימייל שאומת ב-GitHub']),
-    lesson('install-uv-python','Install uv and Python','התקנת uv ו-Python','Install uv, use it to install Python, and avoid conflicting global environments.','מתקינים uv, משתמשים בו להתקנת Python ונמנעים מסביבות גלובליות מתנגשות.','powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"\nuv python install 3.12\nuv python list',['uv manages Python and dependencies','Python does not need a separate installer','Projects receive isolated environments'],['uv מנהל את Python ואת התלויות','אין צורך ב-Installer נפרד ל-Python','כל פרויקט מקבל סביבה מבודדת']),
-    lesson('github-account-repo','GitHub account and first repository','חשבון GitHub ו-Repository ראשון','Create and verify a GitHub account, then create an empty public repository.','יוצרים ומאמתים חשבון GitHub ולאחר מכן Repository ציבורי ריק.','Repository name: hagpy-first-site\nVisibility: Public\nREADME: unchecked\n.gitignore: None\nLicense: None',['Verify the account email','Create an empty repository for an existing local project','Copy the HTTPS repository URL'],['מאמתים את כתובת האימייל','יוצרים Repository ריק לפרויקט מקומי קיים','מעתיקים את כתובת ה-HTTPS של ה-Repository']),
-    lesson('verify-installation','Verify the installation','בדיקת ההתקנה','Run one checklist that proves Git, uv, Python and VS Code are available.','מריצים רשימת בדיקה שמוכיחה כי Git, uv, Python ו-VS Code זמינים.','git --version\nuv --version\nuv run python --version\ncode --version',['Every command must return a version','Use a fresh PowerShell window','Fix PATH problems before continuing'],['כל פקודה צריכה להחזיר גרסה','משתמשים בחלון PowerShell חדש','פותרים בעיות PATH לפני שממשיכים']),
-    lesson('setup-troubleshooting','Installation troubleshooting','פתרון תקלות התקנה','Fix the most common PATH, authentication, remote and GitHub Pages failures.','פותרים תקלות נפוצות ב-PATH, באימות, ב-Remote וב-GitHub Pages.','where.exe git\nwhere.exe uv\ngit remote -v\ngit status',['Diagnose before reinstalling','Copy the exact error message','Change only one variable at a time'],['מאבחנים לפני שמתקינים מחדש','מעתיקים את הודעת השגיאה המדויקת','משנים משתנה אחד בכל פעם'])]},
-  { id:'first-project', en:'Our first project', he:'הפרוייקט הראשון שלנו', lessons:[
-    lesson('project-setup','Project setup and library management','הקמת פרוייקט וניהול ספריות','Create the first local course project with uv and open it in VS Code.','יוצרים את פרויקט הקורס המקומי הראשון באמצעות uv ופותחים אותו ב-VS Code.','cd C:\\AI-DEV-2026\nuv init --bare --vcs none hagpy-first-site\ncd hagpy-first-site\ncode .',['Create the project inside the workspace folder','Use uv init deliberately','Open VS Code from the project root'],['יוצרים את הפרויקט בתוך תיקיית העבודה','משתמשים ב-uv init בצורה מכוונת','פותחים את VS Code מתוך שורש הפרויקט']),
-    lesson('uv','Dependencies with uv','תלויות עם uv','Manage reproducible environments, dependency groups and upgrades.','מנהלים סביבת פרויקט ניתנת לשחזור, ספריות, קבוצות תלויות ושדרוגים.','uv add fastapi\nuv add --dev pytest ruff pylint pytest-cov\nuv lock\nuv sync --frozen',['Commit pyproject.toml and uv.lock','Separate development dependencies','Use frozen sync in CI'],['שמרו את pyproject.toml ואת uv.lock ב-Git','הפרידו תלויות פיתוח','השתמשו ב-frozen sync ב-CI']),
-    lesson('first-html-site','Build a local website','בניית אתר מקומי','Create index.html in the project and preview it through a local HTTP server.','יוצרים index.html בתוך הפרויקט וצופים בו דרך שרת HTTP מקומי.','New file: index.html\nuv run python -m http.server 8000\nOpen http://localhost:8000',['index.html belongs at the project root','Preview through a local HTTP server','Verify the page before committing'],['index.html נמצא בשורש הפרויקט','צופים באתר דרך שרת HTTP מקומי','בודקים את העמוד לפני Commit']),
-    lesson('push-first-repository','Push the project to GitHub','העלאת הפרויקט ל-GitHub','Initialize local Git, create the first commit and push main to the empty repository.','מאתחלים Git מקומי, יוצרים Commit ראשון ומעלים את main ל-Repository הריק.','git init\ngit add .\ngit commit -m "Create first website"\ngit branch -M main\ngit remote add origin https://github.com/USERNAME/hagpy-first-site.git\ngit push -u origin main',['Review git status before committing','Authenticate through the browser when prompted','Verify the files on GitHub after the push'],['בודקים git status לפני Commit','מבצעים אימות בדפדפן כאשר מתבקשים','מוודאים שהקבצים מופיעים ב-GitHub']),
-    lesson('publish-github-pages','Publish with GitHub Pages','פרסום באמצעות GitHub Pages','Publish the main branch from the repository root and open the live website.','מפרסמים את ענף main משורש ה-Repository ופותחים את האתר החי.','Settings → Pages\nSource: Deploy from a branch\nBranch: main\nFolder: /(root)\nSave',['GitHub Pages serves static files','The site URL includes the repository name','Deployment may take several minutes'],['GitHub Pages מגיש קבצים סטטיים','כתובת האתר כוללת את שם ה-Repository','הפרסום עשוי להימשך מספר דקות'])]},
-  { id:'python', en:'Python foundations', he:'יסודות Python', lessons:[
-    lesson('syntax','Syntax and indentation','תחביר והזחה','Understand statements, blocks, comments and Python readability.','מבינים פקודות, בלוקים, הערות וקריאות בפייתון.','temperature = 28\nif temperature > 25:\n    print("Warm day")',['Indentation defines blocks','Four spaces is the standard','Readable code beats clever code'],['הזחה מגדירה בלוקים','ארבעה רווחים הם התקן','קוד קריא עדיף על קוד מתחכם']),
-    lesson('variables-types','Variables and types','משתנים וטיפוסים','Model values clearly with names and built-in types.','מייצגים ערכים באמצעות שמות וטיפוסים מובנים.','name: str = "Maya"\nage: int = 24\nactive: bool = True\nscore: float = 9.5',['Names point to objects','Types describe valid operations','Avoid encoding types inside names'],['שמות מצביעים לאובייקטים','טיפוסים מגדירים פעולות תקינות','אל תקודדו טיפוסים בתוך שמות']),
-    lesson('strings','Strings and formatting','מחרוזות ועיצוב טקסט','Build, inspect and format text without fragile concatenation.','יוצרים, בודקים ומעצבים טקסט בלי שרשור שביר.','name = "Maya"\nlessons = 8\nmessage = f"{name} completed {lessons} lessons"',['Prefer f-strings for formatting','Strings are immutable','Normalize external text deliberately'],['העדיפו f-strings לעיצוב','מחרוזות אינן משתנות','נרמלו טקסט חיצוני במכוון']),
-    lesson('conditions','Conditions','תנאים','Express decisions with small, readable boolean rules.','מבטאים החלטות באמצעות חוקים בוליאניים קטנים וקריאים.','if score >= 90:\n    grade = "excellent"\nelif score >= 70:\n    grade = "good"\nelse:\n    grade = "practice"',['Use truthiness intentionally','Avoid deeply nested conditions','Extract complex rules into named functions'],['השתמשו ב-Truthiness במכוון','הימנעו מתנאים מקוננים עמוק','חלצו חוקים מורכבים לפונקציות']),
-    lesson('loops','Loops and iteration','לולאות ואיטרציה','Process collections with for, range and enumeration.','מעבדים אוספים עם for, range ו-enumerate.','for index, topic in enumerate(topics, start=1):\n    print(index, topic)',['Iterate over values, not indexes','Use enumerate when the position matters','Use break and continue sparingly'],['עברו על ערכים, לא על אינדקסים','השתמשו ב-enumerate כשצריך מיקום','השתמשו ב-break וב-continue במידה']),
-    lesson('collections','Lists, tuples, sets and dictionaries','רשימות, Tuples, Sets ומילונים','Choose a collection according to its semantics, not habit.','בוחרים אוסף לפי המשמעות שלו, לא לפי הרגל.','student = {"name": "Maya", "skills": {"python", "git"}}\nstudent["skills"].add("pytest")',['List means ordered and mutable','Tuple represents a fixed record','Set gives uniqueness; dict maps keys to values'],['List הוא מסודר וניתן לשינוי','Tuple מייצג רשומה קבועה','Set מבטיח ייחודיות ו-dict ממפה מפתחות']),
-    lesson('comprehensions','Comprehensions','Comprehensions','Transform collections concisely without hiding complex logic.','משנים אוספים בקיצור בלי להסתיר לוגיקה מורכבת.','passed = [score for score in scores if score >= 60]\nby_id = {user.id: user for user in users}',['Keep one transformation per comprehension','Prefer a loop when logic needs explanation','Generator expressions avoid eager lists'],['שמרו על טרנספורמציה אחת','העדיפו לולאה כשהלוגיקה דורשת הסבר','Generator חוסך יצירת רשימה מראש'])]},
-  { id:'functions', en:'Functions and modules', he:'פונקציות ומודולים', lessons:[
-    lesson('functions','Functions','פונקציות','Create small units with explicit inputs, outputs and one responsibility.','יוצרים יחידות קטנות עם קלט, פלט ואחריות אחת.','def calculate_total(price: float, quantity: int) -> float:\n    return price * quantity',['Prefer return values over printing','Keep parameters meaningful','One function should answer one question'],['העדיפו ערך מוחזר על print','שמרו על פרמטרים משמעותיים','פונקציה אחת עונה על שאלה אחת']),
-    lesson('function-design','Function design','תכנון פונקציות','Use defaults, keyword arguments and pure functions deliberately.','משתמשים בערכי ברירת מחדל, פרמטרים בשמות ופונקציות טהורות במכוון.','def create_user(name: str, *, active: bool = True) -> User:\n    return User(name=name, active=active)',['Avoid mutable default arguments','Use keyword-only arguments for clarity','Separate calculation from side effects'],['הימנעו מברירת מחדל משתנה','השתמשו בפרמטרים בשם לבהירות','הפרידו חישוב מתופעות לוואי']),
-    lesson('modules-packages','Modules and packages','מודולים וחבילות','Split code by responsibility and expose a small public interface.','מחלקים קוד לפי אחריות וחושפים ממשק ציבורי קטן.','from my_app.services.pricing import calculate_total\n\n__all__ = ["calculate_total"]',['A file is a module','A directory package groups related modules','Avoid circular imports by improving boundaries'],['קובץ הוא מודול','חבילה מאגדת מודולים קשורים','מונעים ייבוא מעגלי באמצעות גבולות נכונים']),
-    lesson('errors','Errors and exceptions','שגיאות וחריגות','Fail clearly, preserve context and catch errors only where recovery is possible.','נכשלים בצורה ברורה, שומרים הקשר ותופסים שגיאות רק כשאפשר להתאושש.','try:\n    config = load_config(path)\nexcept OSError as error:\n    logger.exception("Cannot load config: %s", path)\n    raise ConfigurationError(path) from error',['Never silently swallow exceptions','Catch specific exception types','Log or present failures at the right boundary'],['לעולם אל תבלעו חריגות בשקט','תפסו סוגי שגיאה מדויקים','דווחו על כשל בגבול המתאים']),
-    lesson('files','Files and paths','קבצים ונתיבים','Read and write files safely with pathlib and context managers.','קוראים וכותבים קבצים בבטחה עם pathlib ו-context managers.','from pathlib import Path\n\ntext = Path("README.md").read_text(encoding="utf-8")',['Use pathlib instead of manual separators','Specify text encoding','Treat file I/O as a failure boundary'],['השתמשו ב-pathlib במקום מפרידים ידניים','ציינו קידוד טקסט','התייחסו לקלט ופלט כגבול כשל'])]},
-  { id:'oop', en:'Object-oriented Python', he:'תכנות מונחה עצמים', lessons:[
-    lesson('classes','Classes and objects','מחלקות ואובייקטים','Use classes when state and behavior belong together.','משתמשים במחלקות כאשר מצב והתנהגות שייכים יחד.','class Account:\n    def __init__(self, balance: int = 0) -> None:\n        self._balance = balance\n\n    def deposit(self, amount: int) -> None:\n        self._balance += amount',['Objects protect valid state','Methods express domain behavior','Do not create classes as function containers'],['אובייקטים מגינים על מצב תקין','מתודות מבטאות התנהגות עסקית','אל תיצרו מחלקות כמיכל לפונקציות']),
-    lesson('dataclasses','Dataclasses and value objects','Dataclasses ואובייקטי ערך','Represent data-rich concepts without repetitive boilerplate.','מייצגים מושגים עשירי מידע בלי קוד חזרתי.','@dataclass(frozen=True, slots=True)\nclass Money:\n    amount: Decimal\n    currency: str',['Frozen value objects are easier to reason about','Use slots when appropriate, not automatically','Validation still belongs at construction'],['אובייקטי ערך קבועים קלים להבנה','השתמשו ב-slots כשמתאים','האימות עדיין מתבצע ביצירה']),
-    lesson('composition','Composition and inheritance','הרכבה וירושה','Prefer collaboration between small objects over deep inheritance trees.','מעדיפים שיתוף פעולה בין אובייקטים קטנים על עצי ירושה עמוקים.','class OrderService:\n    def __init__(self, repository: OrderRepository) -> None:\n        self._repository = repository',['Composition makes dependencies visible','Inherit only for a true substitutable relationship','Inject collaborators through constructors'],['הרכבה חושפת תלויות','הורישו רק כשיש תחליפיות אמיתית','הזריקו שותפים דרך הבנאי']),
-    lesson('protocols','Protocols and interfaces','Protocols וממשקים','Depend on capabilities rather than concrete implementations.','תלויים ביכולות ולא במימושים קונקרטיים.','class UserRepository(Protocol):\n    def get(self, user_id: UUID) -> User | None: ...',['Protocols support structural typing','Interfaces protect architectural boundaries','Keep contracts small and cohesive'],['Protocols תומכים בטיפוס מבני','ממשקים מגינים על גבולות ארכיטקטוניים','שמרו על חוזים קטנים ומלוכדים']),
-    lesson('type-hints','Type hints','Type Hints','Make contracts visible to humans, editors and static analyzers.','הופכים חוזים לגלויים לבני אדם, לעורכים ולמנתחים סטטיים.','def find_user(user_id: UUID) -> User | None:\n    ...',['Types document expectations','Use precise collections and optionality','Static checking complements runtime validation'],['טיפוסים מתעדים ציפיות','השתמשו באוספים ובאופציונליות מדויקים','בדיקה סטטית משלימה אימות בזמן ריצה'])]},
-  { id:'workflow', en:'Professional workflow', he:'תהליך עבודה מקצועי', lessons:[
-    lesson('git','Local Git workflow','תהליך Git מקומי','Create small, explainable commits before working remotely.','יוצרים Commits קטנים וברורים לפני שעובדים מרחוק.','git switch -c feature/user-api\ngit add src tests\ngit commit -m "Add user creation service"',['Commit one coherent change','Review git diff before committing','Never commit secrets or virtual environments'],['בצעו Commit לשינוי מלוכד אחד','בדקו git diff לפני Commit','אל תשמרו סודות או סביבה וירטואלית']),
-    lesson('github','GitHub and pull requests','GitHub ו-Pull Requests','Use remote collaboration as a review and automation boundary.','משתמשים בשיתוף מרוחק כגבול לביקורת ואוטומציה.','git remote add origin https://github.com/org/project.git\ngit push -u origin feature/user-api',['Describe why the change exists','Keep pull requests reviewable','Protect main and require checks'],['הסבירו למה השינוי קיים','שמרו על PR בגודל שניתן לבדיקה','הגנו על main וחייבו בדיקות'])]},
-  { id:'quality', en:'Testing and quality', he:'בדיקות ואיכות', lessons:[
-    lesson('testing-concepts','Testing strategy','אסטרטגיית בדיקות','Balance unit, integration and end-to-end tests according to risk.','מאזנים בדיקות יחידה, אינטגרציה ומקצה לקצה לפי הסיכון.','def test_total_includes_tax():\n    assert calculate_total(100, tax_rate=.17) == 117',['Test observable behavior','Keep tests deterministic','Spend more tests on risky logic'],['בדקו התנהגות נצפית','שמרו על בדיקות צפויות','השקיעו יותר בדיקות בלוגיקה מסוכנת']),
-    lesson('pytest','pytest fundamentals','יסודות pytest','Write expressive tests with clear arrange, act and assert phases.','כותבים בדיקות ברורות עם שלבי הכנה, פעולה ובדיקה.','def test_empty_cart_total_is_zero():\n    cart = Cart()\n    result = cart.total()\n    assert result == 0',['Test names describe behavior','One failure reason per test','Use pytest.raises for expected exceptions'],['שמות בדיקות מתארים התנהגות','סיבת כשל אחת לכל בדיקה','השתמשו ב-pytest.raises לחריגות צפויות']),
-    lesson('fixtures','Fixtures and parametrization','Fixtures ופרמטריזציה','Reuse setup without hiding the meaning of a test.','משתפים הכנה בלי להסתיר את משמעות הבדיקה.','@pytest.mark.parametrize(("value", "expected"), [(2, True), (3, False)])\ndef test_is_even(value, expected):\n    assert is_even(value) is expected',['Prefer small local fixtures','Parametrize data, not entire workflows','Factories often beat giant fixtures'],['העדיפו Fixtures מקומיים קטנים','בצעו פרמטריזציה למידע, לא לתהליך שלם','Factories עדיפים לרוב על Fixture ענקי']),
-    lesson('mocking','Mocking and test doubles','Mocking וכפילי בדיקה','Replace slow or external boundaries, not your own business logic.','מחליפים גבולות איטיים או חיצוניים, לא את הלוגיקה העסקית שלכם.','gateway = Mock(spec=PaymentGateway)\ngateway.charge.return_value = Receipt("ok")',['Mock where the dependency is used','Use specs to catch invalid calls','Fakes can be clearer than deep mocks'],['בצעו Mock במקום שבו משתמשים בתלות','השתמשו ב-spec לזיהוי קריאות שגויות','Fake יכול להיות ברור יותר מ-Mock עמוק']),
-    lesson('coverage','Coverage and missing risk','כיסוי וסיכון חסר','Use coverage to find unexecuted risk, not to manufacture a perfect score.','משתמשים בכיסוי כדי למצוא סיכון שלא הורץ, לא כדי לייצר ציון מושלם.','uv run pytest --cov=src --cov-branch --cov-report=term-missing',['Branch coverage reveals missed decisions','Coverage cannot judge assertions','Set thresholds according to project risk'],['כיסוי ענפים חושף החלטות שלא נבדקו','כיסוי אינו שופט Assertions','קבעו סף לפי סיכון הפרויקט']),
-    lesson('ruff-pylint','Ruff and Pylint','Ruff ו-Pylint','Combine fast automated checks with deeper design feedback.','משלבים בדיקות אוטומטיות מהירות עם משוב תכנוני עמוק.','uv run ruff check .\nuv run ruff format --check .\nuv run pylint src',['Ruff handles fast linting and formatting','Pylint provides deeper diagnostics','Configure tools in pyproject.toml'],['Ruff מטפל בבדיקות ועיצוב מהירים','Pylint מספק אבחון עמוק יותר','הגדירו כלים ב-pyproject.toml'])]},
-  { id:'backend', en:'APIs and production', he:'API ופרודקשן', lessons:[
-    lesson('pydantic-models','Pydantic models','מודלים ב-Pydantic','Validate untrusted input at system boundaries.','מאמתים קלט לא אמין בגבולות המערכת.','class UserCreate(BaseModel):\n    name: str = Field(min_length=2, max_length=80)\n    email: EmailStr',['Models are boundary contracts','Separate create, update and read schemas','Do not leak secret fields'],['מודלים הם חוזים בגבולות','הפרידו סכמות ליצירה, עדכון וקריאה','אל תחשפו שדות סודיים']),
-    lesson('pydantic-validation','Pydantic validation and settings','אימות והגדרות ב-Pydantic','Express cross-field rules and load typed configuration safely.','מבטאים חוקים בין שדות וטוענים הגדרות עם טיפוסים בבטחה.','class Settings(BaseSettings):\n    database_url: SecretStr\n    log_level: Literal["INFO", "DEBUG"] = "INFO"',['Keep validators deterministic','Use pydantic-settings for environment config','Never print secret values'],['שמרו Validators צפויים','השתמשו ב-pydantic-settings להגדרות סביבה','לעולם אל תדפיסו ערכים סודיים']),
-    lesson('rest','REST and HTTP design','תכנון REST ו-HTTP','Design stable resource contracts with meaningful methods and status codes.','מתכננים חוזי משאבים יציבים עם מתודות וקודי סטטוס משמעותיים.','GET /users/{id}       200 | 404\nPOST /users           201 | 422\nDELETE /users/{id}    204 | 404',['URLs identify resources','Methods express intent','Errors need stable response shapes'],['כתובות מזהות משאבים','מתודות מבטאות כוונה','שגיאות צריכות מבנה תגובה יציב']),
-    lesson('fastapi-routes','FastAPI routes and dependencies','נתיבים ותלויות ב-FastAPI','Translate HTTP into focused application calls.','מתרגמים HTTP לקריאות ממוקדות למערכת.','@router.post("/users", response_model=UserRead, status_code=201)\ndef create_user(payload: UserCreate, service: UserService = Depends(get_service)):\n    return service.create(payload)',['Routes should stay thin','Dependencies are explicit collaborators','Response models protect the contract'],['נתיבים צריכים להישאר דקים','תלויות הן שותפים מפורשים','מודלי פלט מגינים על החוזה']),
-    lesson('fastapi-architecture','FastAPI architecture','ארכיטקטורת FastAPI','Separate transport, use cases, domain rules and persistence.','מפרידים תעבורה, תרחישי שימוש, חוקים עסקיים ושמירה.','Router -> Service -> Repository Protocol -> Database\n                 -> Domain Models',['Framework code stays at the edge','Services own use cases','Repositories hide persistence details'],['קוד הפריימוורק נשאר בקצה','Services מנהלים תרחישי שימוש','Repositories מסתירים פרטי שמירה']),
-    lesson('fastapi-errors','FastAPI errors and observability','שגיאות וניטור ב-FastAPI','Report failures consistently without leaking internals.','מדווחים על כשלים בעקביות בלי לחשוף מידע פנימי.','@app.exception_handler(EntityNotFound)\nasync def not_found_handler(request, error):\n    logger.info("Entity not found", extra={"path": request.url.path})\n    return JSONResponse(status_code=404, content={"code": "not_found"})',['Map domain errors at the HTTP boundary','Log context without secrets','Use correlation IDs across requests'],['מפו שגיאות עסקיות בגבול HTTP','תעדו הקשר בלי סודות','השתמשו במזהי קורלציה']),
-    lesson('production','Production readiness','מוכנות לפרודקשן','Combine configuration, security, logs, health checks and repeatable deployment.','משלבים הגדרות, אבטחה, לוגים, Health Checks והפצה ניתנת לשחזור.','GET /health/live\nGET /health/ready\n\nLOG_LEVEL=INFO\nDATABASE_URL=<secret>',['Separate liveness and readiness','Validate configuration at startup','Deploy immutable, reproducible artifacts'],['הפרידו Liveness מ-Readiness','אמתו הגדרות בעלייה','הפיצו Artifacts קבועים וניתנים לשחזור'])]},
-  { id:'product', en:'Build a real FastAPI product', he:'בניית מוצר FastAPI אמיתי', lessons:[
-    lesson('service-layer','Service Layer','שכבת Service','Move business use cases out of HTTP routes and keep them testable.','מעבירים תרחישים עסקיים מנתיבי HTTP ושומרים אותם ניתנים לבדיקה.','class DreamService:\n    def create(self, command): ...',['Routes translate HTTP','Services own use cases','Repositories own persistence'],['נתיבים מתרגמים HTTP','Services מנהלים תרחישים','Repositories מנהלים שמירה']),
-    lesson('repository-pattern','Repository Pattern and skeleton','Repository Pattern ומבנה שלד','Hide persistence behind a small interface that the service can depend on.','מסתירים את מנגנון השמירה מאחורי ממשק קטן שעליו ה-Service יכול להסתמך.','class DreamRepository(Protocol):\n    def save(self, dream): ...',['Depend on contracts','Keep storage outside domain logic','Swap implementations in tests'],['תלויים בחוזים','משאירים שמירה מחוץ ללוגיקה','מחליפים מימושים בבדיקות']),
-    lesson('secrets-env','Secrets, API keys and .env','Secrets, ‏API Keys וקובצי ‎.env','Keep credentials outside code and outside Git history.','שומרים Credentials מחוץ לקוד ומחוץ להיסטוריית Git.','API_KEY=replace-me\nDATABASE_URL=postgresql://...',['Secrets are configuration','Commit .env.example, never .env','Validate settings at startup'],['Secrets הם הגדרות','שומרים ‎.env.example ולא ‎.env','מאמתים הגדרות בעלייה']),
-    lesson('frontend-fastapi','Frontend and FastAPI','Frontend מול FastAPI','Understand the complete path from a browser event to a FastAPI response.','מבינים את הדרך המלאה מאירוע בדפדפן ועד לתגובת FastAPI.','Browser → fetch → HTTP → FastAPI → JSON → DOM',['Frontend owns interaction','Backend owns rules and data','The API is their contract'],['Frontend מנהל אינטראקציה','Backend מנהל חוקים ומידע','ה-API הוא החוזה ביניהם']),
-    lesson('fetch-api','The Fetch API','העבודה עם fetch','Send asynchronous browser requests and inspect the Response correctly.','שולחים בקשות אסינכרוניות מהדפדפן ובודקים נכון את ה-Response.','const response = await fetch("/api/dreams");',['fetch returns a Promise','HTTP errors do not reject automatically','Parse the body once'],['fetch מחזיר Promise','שגיאות HTTP לא זורקות אוטומטית','קוראים את ה-Body פעם אחת']),
-    lesson('json-data','JSON between frontend and backend','JSON בין Frontend ל-Backend','Use JSON as a data format without confusing it with JavaScript objects or Python dictionaries.','משתמשים ב-JSON כפורמט מידע בלי לבלבל אותו עם אובייקט JavaScript או מילון Python.','{"title":"Learn Python","done":false}',['JSON is text on the wire','Keys and strings use double quotes','Dates and UUIDs become strings'],['JSON הוא טקסט בתקשורת','מפתחות ומחרוזות בגרשיים כפולים','תאריכים ו-UUID הופכים למחרוזות']),
-    lesson('http-crud-methods','GET, POST, PATCH and DELETE','שליחת GET, ‏POST, ‏PATCH ו-DELETE','Choose the HTTP method that matches the intent and response.','בוחרים את מתודת HTTP שמתאימה לכוונה ולתגובה.','GET /api/dreams\nPOST /api/dreams\nPATCH /api/dreams/{id}\nDELETE /api/dreams/{id}',['GET reads','POST creates','PATCH changes selected fields'],['GET קורא','POST יוצר','PATCH משנה שדות נבחרים']),
-    lesson('frontend-loading-errors','Loading states and errors','טיפול בטעינה ובשגיאות','Design the interface for waiting, empty results, failures and retry.','מתכננים את הממשק למצבי המתנה, תוצאה ריקה, כשל וניסיון חוזר.','idle → loading → success | empty | error',['Disable duplicate actions','Show actionable errors','Always leave loading state'],['מונעים פעולות כפולות','מציגים שגיאה שימושית','תמיד יוצאים ממצב Loading']),
-    lesson('http-status-codes','HTTP Status Codes','קודי סטטוס HTTP','Read status codes as part of the API contract, not decorative numbers.','קוראים קודי סטטוס כחלק מחוזה ה-API ולא כמספרים לקישוט.','200 201 204 400 401 403 404 409 422 500',['2xx means success','4xx describes request problems','5xx describes server failure'],['2xx מציין הצלחה','4xx מתאר בעיית בקשה','5xx מתאר כשל שרת']),
-    lesson('pydantic-validation-errors','Pydantic validation errors','הצגת שגיאות Validation של Pydantic','Translate FastAPI 422 details into useful field messages.','מתרגמים את פרטי 422 של FastAPI להודעות שימושיות ליד השדות.','detail[0].loc → ["body", "title"]',['422 has structured details','Map locations to form fields','Do not show raw JSON to users'],['ל-422 יש פרטים מובנים','ממפים מיקום לשדות בטופס','לא מציגים JSON גולמי למשתמש']),
-    lesson('same-origin-cors','Same Origin and CORS','Same Origin מול CORS','Understand when the browser blocks a response and configure only trusted origins.','מבינים מתי הדפדפן חוסם תגובה ומגדירים רק Origins מהימנים.','origin = scheme + host + port',['Same origin needs no CORS','Different ports are different origins','CORS is enforced by browsers'],['Same Origin אינו דורש CORS','Ports שונים הם Origins שונים','הדפדפן אוכף CORS']),
-    lesson('databases-overview','Databases overview','מסדי נתונים בגדול','Choose durable storage according to relationships, queries and operational needs.','בוחרים אחסון מתמשך לפי קשרים, שאילתות וצרכים תפעוליים.','Application → Repository → Database',['Databases outlive processes','Models serve query patterns','No database is best for everything'],['מסד שורד את התהליך','מודלים משרתים דפוסי שאילתה','אין מסד שטוב להכול']),
-    lesson('mongodb-basics','MongoDB basics','MongoDB','Learn documents, collections, flexible schemas and when embedding fits.','לומדים Documents, ‏Collections, סכמות גמישות ומתי Embedding מתאים.','{"_id":"...","title":"Learn","steps":[...]}',['Documents resemble nested objects','Collections group documents','Indexes still matter'],['Documents דומים לאובייקטים מקוננים','Collections מאגדים Documents','גם כאן Indexes חשובים']),
-    lesson('postgresql-basics','PostgreSQL basics','PostgreSQL','Learn tables, rows, keys, relationships and transactions.','לומדים Tables, ‏Rows, מפתחות, קשרים ו-Transactions.','dreams(id, title, status)\nsteps(id, dream_id, title)',['Schemas are explicit','Foreign keys protect relationships','Transactions protect multi-step changes'],['הסכמה מפורשת','Foreign Keys מגינים על קשרים','Transactions מגינים על שינוי רב-שלבי']),
-    lesson('redis-cache','Redis as a cache layer','Redis כשכבת Cache','Use temporary fast data to reduce repeated database work without replacing the database.','משתמשים במידע זמני ומהיר להפחתת עבודה חוזרת מול המסד בלי להחליף אותו.','cache-aside: GET → miss → DB → SETEX',['Cache data may disappear','TTL prevents stale entries living forever','Invalidation is the hard part'],['מידע ב-Cache עלול להיעלם','TTL מונע מידע ישן לנצח','Invalidation הוא החלק הקשה']),
-    lesson('docker-basics','Docker basics','יסודות Docker','Understand images, containers, Dockerfiles and why reproducible runtime matters.','מבינים Images, ‏Containers, ‏Dockerfiles ולמה סביבת ריצה ניתנת לשחזור חשובה.','Dockerfile → Image → Container',['An image is a blueprint','A container is a running process','Containers are not virtual machines'],['Image הוא תבנית','Container הוא תהליך רץ','Containers אינם מכונות וירטואליות']),
-    lesson('docker-fastapi','FastAPI in a Docker container','FastAPI בתוך Docker Container','Build and run one portable FastAPI image with uv dependencies.','בונים ומריצים FastAPI כ-Image נייד אחד עם תלויות uv.','docker build -t dream-api .\ndocker run -p 8000:8000 dream-api',['Bind to 0.0.0.0','Copy lockfiles before source','Keep secrets out of images'],['מאזינים על ‎0.0.0.0','מעתיקים Lockfiles לפני הקוד','לא מכניסים Secrets ל-Image']),
-    lesson('cicd-overview','What is CI/CD?','מהו CI/CD?','Automate verification and delivery so every change follows the same gate.','מפעילים בדיקות והפצה אוטומטיות כך שכל שינוי עובר באותו שער.','push → checks → build → deploy',['CI verifies changes','Delivery keeps releases ready','Deployment releases automatically'],['CI מאמת שינויים','Delivery מכין גרסאות לשחרור','Deployment מפרסם אוטומטית']),
-    lesson('github-actions-cicd','CI/CD with GitHub Actions','CI/CD באמצעות GitHub Actions','Create a workflow that installs with uv, checks quality and runs tests.','יוצרים Workflow שמתקין באמצעות uv, בודק איכות ומריץ בדיקות.','.github/workflows/ci.yml',['Events trigger workflows','Jobs run on fresh runners','A failing step stops the job'],['אירועים מפעילים Workflows','Jobs רצים על Runners נקיים','שלב שנכשל עוצר את ה-Job'])]},
-  { id:'reference', en:'Reference and help', he:'עזר ומידע שימושי', lessons:[
-    lesson('glossary','Python glossary','מילון מושגים','Find concise definitions for the language, tooling, testing and backend terms used throughout HagPy.','מוצאים הגדרות קצרות למונחי השפה, הכלים, הבדיקות וה-Backend שמופיעים ב-HagPy.','API       Application Programming Interface\nCI        Continuous Integration\nFixture   Reusable pytest setup\nLinting   Static code-quality analysis\nSchema    A contract that describes data',['Definitions link concepts to their practical role','Terms remain searchable in both languages','Examples distinguish similar concepts'],['הגדרות מחברות מושגים לתפקיד המעשי שלהם','המונחים ניתנים לחיפוש בשתי השפות','דוגמאות מבדילות בין מושגים דומים']),
-    lesson('cheat-sheets','Python cheat sheets','דפי עזר מהירים','Keep the most useful Python syntax and project commands one click away.','שומרים את תחביר Python ואת פקודות הפרויקט השימושיות במרחק לחיצה.','value = items[0] if items else None\nunique = set(values)\nby_id = {item.id: item for item in items}\nwith Path("data.txt").open(encoding="utf-8") as file:\n    text = file.read()',['Organize references by task','Prefer canonical syntax over tricks','Show safe defaults beside each command'],['מארגנים מידע לפי משימה','מעדיפים תחביר תקני על טריקים','מציגים ברירות מחדל בטוחות ליד כל פקודה']),
-    lesson('uv-command-index','uv command index','אינדקס פקודות uv','Use a task-oriented reference for projects, Python versions, dependencies, lockfiles and execution.','משתמשים באינדקס לפי משימות לפרויקטים, גרסאות Python, תלויות, Lockfiles והרצה.','uv init my-project\nuv python install 3.12\nuv add fastapi\nuv add --dev pytest ruff\nuv lock\nuv sync --frozen\nuv run pytest',['Explain what each command changes','Separate local development from CI commands','Include safe upgrade and removal workflows'],['מסבירים מה כל פקודה משנה','מפרידים פיתוח מקומי מפקודות CI','כוללים תהליכי שדרוג והסרה בטוחים']),
-    lesson('git-command-index','Git command index','אינדקס פקודות Git','Move confidently from inspection and commits to branches, remotes and recovery.','מתקדמים בביטחון מבדיקה ו-Commits אל Branches, Remotes והתאוששות.','git status\ngit diff\ngit switch -c feature/name\ngit add src tests\ngit commit -m "Add feature"\ngit push -u origin feature/name',['Inspect before changing state','Prefer reversible recovery commands','Explain local versus remote effects'],['בודקים לפני שמשנים מצב','מעדיפים פקודות התאוששות הפיכות','מסבירים השפעה מקומית לעומת מרוחקת']),
-    lesson('pytest-index','pytest command index','אינדקס pytest','Run targeted tests, markers, failures, coverage and debugging without guessing flags.','מריצים בדיקות ממוקדות, Markers, כשלים, Coverage ודיבוג בלי לנחש Flags.','uv run pytest\nuv run pytest tests/test_users.py\nuv run pytest -k "create_user"\nuv run pytest -x --pdb\nuv run pytest --cov=src --cov-branch',['Start with the narrowest useful test scope','Use verbose failure output when diagnosing','Keep permanent options in pyproject.toml'],['מתחילים מהיקף הבדיקה הצר והשימושי','משתמשים בפלט מפורט בזמן אבחון','שומרים אפשרויות קבועות ב-pyproject.toml']),
-    lesson('python-exceptions','Python exceptions index','אינדקס חריגות Python','Recognize common built-in exceptions and decide where recovery, wrapping or reporting belongs.','מזהים חריגות מובנות נפוצות ומחליטים היכן מתאוששים, עוטפים או מדווחים.','ValueError       Right type, invalid value\nTypeError        Unsupported type or operation\nKeyError         Missing dictionary key\nFileNotFoundError Missing file path\nTimeoutError     Operation exceeded its deadline\nOSError          Operating-system or I/O failure',['Catch the narrowest exception type','Preserve causes with raise from','Never use a bare except to hide failure'],['תופסים את סוג החריגה הצר ביותר','שומרים את הסיבה באמצעות raise from','לעולם לא משתמשים ב-except כללי להסתרת כשל']),
-    lesson('troubleshooting','Python troubleshooting','פתרון תקלות','Diagnose environment, imports, dependencies, tests and server startup with a repeatable process.','מאבחנים סביבה, Imports, תלויות, בדיקות ועליית שרת בתהליך שניתן לשחזור.','uv run python --version\nuv sync\nuv run python -c "import sys; print(sys.executable)"\nuv run pytest -x -vv\nuv run fastapi dev src/app/main.py',['Reproduce the smallest failing command','Read the complete error and chained cause','Record environment and version evidence'],['משחזרים את הפקודה הקטנה ביותר שנכשלת','קוראים את השגיאה המלאה ואת שרשרת הסיבות','מתעדים מידע על הסביבה והגרסאות']),
-    lesson('faq','Frequently asked questions','שאלות נפוצות','Get direct answers about uv, environments, Git, testing, architecture and deployment decisions.','מקבלים תשובות ישירות על uv, סביבות, Git, בדיקות, ארכיטקטורה והפצה.','Q: Should .venv be committed?\nA: No. Commit pyproject.toml and uv.lock.\n\nQ: Ruff or Pylint?\nA: Ruff for fast checks; Pylint for deeper diagnostics.\n\nQ: def or async def in FastAPI?\nA: Choose according to whether the work awaits non-blocking I/O.',['Answers explain tradeoffs, not only rules','Link each answer to the deeper lesson','Update decisions when the toolchain changes'],['תשובות מסבירות פשרות, לא רק כללים','כל תשובה מקשרת לשיעור המעמיק','מעדכנים החלטות כאשר הכלים משתנים']),
-    lesson('accessibility-ui-testing','Accessibility and UI testing','נגישות ובדיקות ממשק','Build an interface that works with keyboards, screen readers, mobile layouts, RTL and user preferences.','בונים ממשק שעובד עם מקלדת, קוראי מסך, מובייל, RTL והעדפות משתמש.','// Playwright accessibility flow\nawait page.goto("/")\nawait page.getByRole("button", { name: "Language" }).click()\nawait expect(page.locator("html")).toHaveAttribute("dir", "rtl")\nawait page.keyboard.press("Tab")',['Use semantic elements and accessible names','Test keyboard, focus, contrast and zoom','Verify RTL and both color themes automatically'],['משתמשים באלמנטים סמנטיים ובשמות נגישים','בודקים מקלדת, Focus, ניגודיות ו-Zoom','מאמתים RTL ושתי ערכות צבעים אוטומטית'])]}
+  {
+    "id": "start",
+    "en": "Getting started",
+    "he": "מתחילים",
+    "lessons": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "id": "first-project",
+    "en": "Our first project",
+    "he": "הפרוייקט הראשון שלנו",
+    "lessons": [
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  {
+    "id": "python",
+    "en": "Python foundations",
+    "he": "יסודות Python",
+    "lessons": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ]
+  },
+  {
+    "id": "functions",
+    "en": "Functions and modules",
+    "he": "פונקציות ומודולים",
+    "lessons": [
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "id": "oop",
+    "en": "Object-oriented Python",
+    "he": "תכנות מונחה עצמים",
+    "lessons": [
+      24,
+      25,
+      26,
+      27,
+      28
+    ]
+  },
+  {
+    "id": "workflow",
+    "en": "Professional workflow",
+    "he": "תהליך עבודה מקצועי",
+    "lessons": [
+      29,
+      30
+    ]
+  },
+  {
+    "id": "quality",
+    "en": "Testing and quality",
+    "he": "בדיקות ואיכות",
+    "lessons": [
+      31,
+      32,
+      33,
+      34,
+      35,
+      36
+    ]
+  },
+  {
+    "id": "backend",
+    "en": "APIs and production",
+    "he": "API ופרודקשן",
+    "lessons": [
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ]
+  },
+  {
+    "id": "product",
+    "en": "Build a real FastAPI product",
+    "he": "בניית מוצר FastAPI אמיתי",
+    "lessons": [
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62
+    ]
+  },
+  {
+    "id": "reference",
+    "en": "Reference and help",
+    "he": "עזר ומידע שימושי",
+    "lessons": [
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71
+    ]
+  }
 ];
-
-function lesson(slug,en,he,introEn,introHe,code,pointsEn,pointsHe){return{slug,en,he,introEn,introHe,code,pointsEn,pointsHe}}
-export const lessons=tracks.flatMap(track=>track.lessons.map(item=>({...item,trackId:track.id,trackEn:track.en,trackHe:track.he})));

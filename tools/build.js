@@ -1,5 +1,6 @@
-import { mkdir, writeFile } from 'node:fs/promises';
-import { lessons, tracks } from '../content/curriculum.js';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { tracks as curriculumTracks } from '../content/curriculum.js';
+import { loadCurriculum } from '../content/lesson-loader.js';
 import { exercises } from '../content/exercises.js';
 import { installGuides } from '../content/install-guides.js';
 import { productGuides } from '../content/product-guides.js';
@@ -14,6 +15,8 @@ await Promise.all([
   mkdir(pagesDirectory, { recursive: true }),
   mkdir(localesDirectory, { recursive: true }),
 ]);
+
+const { lessons, tracks } = await loadCurriculum(curriculumTracks);
 
 const escapeHtml = value => String(value)
   .replaceAll('&', '&amp;')
@@ -112,6 +115,18 @@ function codeBlock(code, filename = 'example.py') {
   return `<div class="code-example"><div class="code-title"><span>${escapeHtml(filename)}</span>${translated('ui.copy', 'Copy', 'העתקה', 'button', ' class="copy-code" data-copy')}</div><pre><code>${escapeHtml(code)}</code></pre></div>`;
 }
 
+async function writeIfChanged(url, content) {
+  try {
+    const current = await readFile(url, 'utf8');
+    if (current === content) return false;
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+
+  await writeFile(url, content);
+  return true;
+}
+
 function operatingSystemSelector() {
   return `<div class="os-selector" data-i18n-aria-label="${translatedAttribute('install.osSelector', 'Operating system', 'מערכת הפעלה')}"><button class="active" type="button">Windows 10/11</button><button type="button" disabled>macOS · Coming soon</button><button type="button" disabled>Linux · Coming soon</button></div>`;
 }
@@ -146,6 +161,67 @@ function standardLesson(item) {
   const points = item.pointsEn.map((point, index) => translated(`lessons.${item.slug}.points.${index}`, point, item.pointsHe[index], 'li')).join('');
   const conceptCards = item.pointsEn.map((point, index) => `<div class="concept-card"><b>0${index + 1}</b>${translated(`lessons.${item.slug}.points.${index}`, point, item.pointsHe[index], 'p')}</div>`).join('');
   return `<section class="lesson-section">${translated('lesson.coreIdea', 'The core idea', 'הרעיון המרכזי', 'h2')}${translated(`lessons.${item.slug}.mentalModel`, `This lesson builds a precise mental model for ${item.en.toLowerCase()}. Learn the contract first, then practice the syntax.`, `השיעור בונה מודל מחשבתי מדויק עבור ${item.he}. קודם מבינים את החוזה, ואז מתרגלים את התחביר.`, 'p')}<div class="concept-grid">${conceptCards}</div></section><section class="lesson-section">${translated('lesson.workingExample', 'Working example', 'דוגמה מעשית', 'h2')}${translated('lesson.readExample', 'Read the example from top to bottom. Identify the input, the responsibility and the observable result before running it.', 'קראו את הדוגמה מלמעלה למטה. זהו את הקלט, האחריות והתוצאה הנצפית לפני ההרצה.', 'p')}${codeBlock(item.code)}<div class="callout">${translated('lesson.professionalHabit', 'Professional habit', 'הרגל מקצועי', 'b')}${translated(`lessons.${item.slug}.points.0`, item.pointsEn[0], item.pointsHe[0], 'p')}</div></section><section class="lesson-section">${translated('lesson.productionChecklist', 'Production checklist', 'רשימת בדיקה לפרודקשן', 'h2')}<ul class="practice-list">${points}${translated('lesson.explicitFailure', 'Make failure behavior explicit', 'הגדירו במפורש את התנהגות הכשל', 'li')}${translated('lesson.smallContract', 'Keep the public contract small', 'שמרו על חוזה ציבורי קטן', 'li')}${translated('lesson.focusedTest', 'Add a focused automated test', 'הוסיפו בדיקה אוטומטית ממוקדת', 'li')}</ul><div class="callout warning">${translated('lesson.commonMistake', 'Common mistake', 'טעות נפוצה', 'b')}${translated('lesson.commonMistakeBody', 'Copying syntax before understanding which responsibility the code owns. Working code is not enough if its boundaries are unclear.', 'העתקת תחביר לפני שמבינים איזו אחריות הקוד מנהל. קוד עובד אינו מספיק אם הגבולות שלו אינם ברורים.', 'p')}</div></section><section class="lesson-section">${translated('lesson.tryYourself', 'Try it yourself', 'תרגול עצמי', 'h2')}${exercisePanel(exercises[item.slug], item.slug)}</section>`;
+}
+
+function paragraphsFromMarkdown(content) {
+  return content
+    .replace(/```[a-zA-Z0-9_-]*\n[\s\S]*?```/g, '')
+    .split(/\n{2,}/)
+    .map(paragraph => paragraph.trim())
+    .filter(Boolean);
+}
+
+function listItemsFromMarkdown(content) {
+  return content
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('- '))
+    .map(line => line.slice(2).trim());
+}
+
+function codeFromMarkdown(content) {
+  const match = content.match(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/);
+  return match ? match[2].trim() : content.trim();
+}
+
+function blockLesson(item) {
+  const blocks = item.blocksEn.map((block, index) => {
+    const hebrewBlock = item.blocksHe[index] ?? block;
+    const key = `lessons.${item.slug}.blocks.${index}`;
+    const title = translated(`${key}.title`, block.attrs.title ?? block.type, hebrewBlock.attrs.title ?? block.type, 'h2');
+
+    if (block.type === 'codeExample') {
+      return `<section class="lesson-section">${title}${codeBlock(codeFromMarkdown(block.content), block.attrs.filename ?? 'example.py')}</section>`;
+    }
+
+    if (block.type === 'checklist') {
+      const items = listItemsFromMarkdown(block.content)
+        .map((itemText, itemIndex) => translated(`${key}.items.${itemIndex}`, itemText, listItemsFromMarkdown(hebrewBlock.content)[itemIndex] ?? itemText, 'li'))
+        .join('');
+      return `<section class="lesson-section">${title}<ul class="practice-list">${items}</ul></section>`;
+    }
+
+    if (block.type === 'warning') {
+      const paragraphs = paragraphsFromMarkdown(block.content)
+        .map((paragraph, paragraphIndex) => translated(`${key}.paragraphs.${paragraphIndex}`, paragraph, paragraphsFromMarkdown(hebrewBlock.content)[paragraphIndex] ?? paragraph, 'p'))
+        .join('');
+      return `<section class="lesson-section"><div class="callout warning">${title}${paragraphs}</div></section>`;
+    }
+
+    if (block.type === 'exercise') {
+      const paragraphs = paragraphsFromMarkdown(block.content)
+        .map((paragraph, paragraphIndex) => translated(`${key}.paragraphs.${paragraphIndex}`, paragraph, paragraphsFromMarkdown(hebrewBlock.content)[paragraphIndex] ?? paragraph, 'p'))
+        .join('');
+      return `<section class="lesson-section"><div class="exercise">${title}${paragraphs}</div></section>`;
+    }
+
+    const paragraphs = paragraphsFromMarkdown(block.content)
+      .map((paragraph, paragraphIndex) => translated(`${key}.paragraphs.${paragraphIndex}`, paragraph, paragraphsFromMarkdown(hebrewBlock.content)[paragraphIndex] ?? paragraph, 'p'))
+      .join('');
+    return `<section class="lesson-section">${title}${paragraphs}</section>`;
+  }).join('');
+
+  return `${blocks}<section class="lesson-section">${translated('lesson.tryYourself', 'Try it yourself', 'תרגול עצמי', 'h2')}${exercisePanel(exercises[item.slug], item.slug)}</section>`;
 }
 
 function referenceLesson(item, index, guide) {
@@ -199,7 +275,15 @@ function lessonPage(item, index) {
   const guide = installGuides[item.slug];
   const productGuide = productGuides[item.slug];
   const referenceGuide = referenceLessons[item.slug];
-  const content = referenceGuide ? referenceLesson(item, index, referenceGuide) : guide ? installationGuide(guide, item.slug) : productGuide ? deepProductGuide(productGuide, item.slug) : standardLesson(item);
+  const content = referenceGuide
+    ? referenceLesson(item, index, referenceGuide)
+    : guide
+      ? installationGuide(guide, item.slug)
+      : productGuide
+        ? deepProductGuide(productGuide, item.slug)
+        : item.layout === 'blocks'
+          ? blockLesson(item)
+          : standardLesson(item);
   const lessonType = referenceGuide ? translated(`reference.${item.slug}.duration`, `${referenceGuide.minutes} min`, `${referenceGuide.minutes} דקות`, 'span', ' class="pill"') : guide ? '<span class="pill">Windows 10/11</span>' : productGuide ? translated('lesson.deep', 'Deep lesson', 'שיעור מעמיק', 'span', ' class="pill"') : '<span class="pill">10–15 min</span>';
   const searchKey = translatedAttribute('ui.search.placeholder', 'Search lessons…', 'חיפוש שיעורים…');
   const config = JSON.stringify(pageConfig(item)).replaceAll('<', '\\u003c');
@@ -218,16 +302,17 @@ function homePage() {
   return `${documentHead('home', 'Python from zero to production', 'פייתון מאפס ועד פרודקשן', '')}<body>${siteHeader('')}<main><section class="home-hero container"><div>${translated('home.kicker', 'MODERN PYTHON ENGINEERING', 'הנדסת פייתון מודרנית', 'p', ' class="lesson-kicker"')}<h1>${translated('home.title', 'Learn Python.', 'לומדים פייתון.')}<br>${translated('home.titleAccent', 'Build like a professional.', 'בונים כמו מקצוענים.', 'em')}</h1>${translated('home.intro', 'A complete, practical path from your first variable to tested FastAPI services and automated CI/CD. Every topic has its own lesson, example, mistakes and exercise.', 'מסלול מעשי ושלם מהמשתנה הראשון ועד שירותי FastAPI בדוקים ו-CI/CD אוטומטי. לכל נושא שיעור, דוגמה, טעויות ותרגול משלו.', 'p')}${translated('home.start', 'Start the Windows setup →', 'מתחילים בהתקנת Windows ←', 'a', ' class="start-button" href="pages/windows-setup.html"')}</div><div class="hero-code"><b>production-ready.py</b><pre>uv sync --frozen\nruff check .\npylint src\npytest --cov\nfastapi run</pre></div></section><section class="home-path container"><div class="home-heading"><div>${translated('home.lessonCount', `${lessons.length} FOCUSED LESSONS`, `${lessons.length} שיעורים ממוקדים`, 'span', ' class="lesson-kicker"')}${translated('home.pathTitle', 'From setup to production', 'מהתקנה ועד פרודקשן', 'h2')}</div>${translated('home.pathIntro', 'Follow the path in order or jump directly to the tool you need.', 'התקדמו לפי הסדר או עברו ישירות לכלי שאתם צריכים.', 'p')}</div>${trackRows}</section></main><div class="toast" role="status" aria-live="polite"></div><script id="page-config" type="application/json">${config}</script><script type="module" src="assets/js/app.js?v=20260712"></script></body></html>`;
 }
 
-const pages = lessons.map((item, index) => writeFile(new URL(`${item.slug}.html`, pagesDirectory), lessonPage(item, index)));
-await Promise.all([...pages, writeFile(new URL('index.html', root), homePage())]);
+const pages = lessons.map((item, index) => writeIfChanged(new URL(`${item.slug}.html`, pagesDirectory), lessonPage(item, index)));
+const pageWrites = await Promise.all([...pages, writeIfChanged(new URL('index.html', root), homePage())]);
 
 const enKeys = Object.keys(catalogs.en).sort();
 const heKeys = Object.keys(catalogs.he).sort();
 if (JSON.stringify(enKeys) !== JSON.stringify(heKeys)) throw new Error('Locale catalogs do not contain the same keys');
 
-await Promise.all([
-  writeFile(new URL('en.json', localesDirectory), `${JSON.stringify(catalogs.en, null, 2)}\n`),
-  writeFile(new URL('he.json', localesDirectory), `${JSON.stringify(catalogs.he, null, 2)}\n`),
+const localeWrites = await Promise.all([
+  writeIfChanged(new URL('en.json', localesDirectory), `${JSON.stringify(catalogs.en, null, 2)}\n`),
+  writeIfChanged(new URL('he.json', localesDirectory), `${JSON.stringify(catalogs.he, null, 2)}\n`),
 ]);
 
-console.log(`Built ${lessons.length} lesson pages and ${enKeys.length} translation keys.`);
+const writtenFiles = [...pageWrites, ...localeWrites].filter(Boolean).length;
+console.log(`Built ${lessons.length} lesson pages and ${enKeys.length} translation keys. Wrote ${writtenFiles} changed files.`);
