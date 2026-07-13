@@ -80,7 +80,7 @@ for (const [key, [en, he]] of Object.entries(runtimeMessages)) register(key, en,
 function documentHead(pageKey, titleEn, titleHe, assetPrefix = '../') {
   register(`${pageKey}.pageTitle`, `${titleEn} - HagPy`, `${titleHe} - HagPy`);
   register('meta.description', 'Professional Python learning path from zero to production', 'מסלול מקצועי ללימוד פייתון מאפס ועד פרודקשן');
-  return `<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" data-i18n-content="meta.description" content=""><title data-i18n="${pageKey}.pageTitle"></title><link rel="stylesheet" href="${assetPrefix}assets/css/tokens.css"><link rel="stylesheet" href="${assetPrefix}assets/css/base.css"><link rel="stylesheet" href="${assetPrefix}assets/css/layout.css"><link rel="stylesheet" href="${assetPrefix}assets/css/components.css"><link rel="stylesheet" href="${assetPrefix}assets/css/rtl.css"></head>`;
+  return `<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" data-i18n-content="meta.description" content=""><title data-i18n="${pageKey}.pageTitle"></title><link rel="icon" type="image/svg+xml" href="${assetPrefix}assets/images/hagpy-mark.svg"><link rel="stylesheet" href="${assetPrefix}assets/css/tokens.css"><link rel="stylesheet" href="${assetPrefix}assets/css/base.css"><link rel="stylesheet" href="${assetPrefix}assets/css/layout.css"><link rel="stylesheet" href="${assetPrefix}assets/css/components.css"><link rel="stylesheet" href="${assetPrefix}assets/css/rtl.css"></head>`;
 }
 
 function siteHeader(pathPrefix = '../') {
