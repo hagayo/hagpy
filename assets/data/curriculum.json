@@ -1,0 +1,707 @@
+{
+  "version": 1,
+  "totalLessons": 71,
+  "tracks": [
+    {
+      "id": "start",
+      "titleKey": "tracks.start.title",
+      "lessons": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "first-project",
+      "titleKey": "tracks.first-project.title",
+      "lessons": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "id": "python",
+      "titleKey": "tracks.python.title",
+      "lessons": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "functions",
+      "titleKey": "tracks.functions.title",
+      "lessons": [
+        19,
+        20,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "id": "oop",
+      "titleKey": "tracks.oop.title",
+      "lessons": [
+        24,
+        25,
+        26,
+        27,
+        28
+      ]
+    },
+    {
+      "id": "workflow",
+      "titleKey": "tracks.workflow.title",
+      "lessons": [
+        29,
+        30
+      ]
+    },
+    {
+      "id": "quality",
+      "titleKey": "tracks.quality.title",
+      "lessons": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "id": "backend",
+      "titleKey": "tracks.backend.title",
+      "lessons": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "id": "product",
+      "titleKey": "tracks.product.title",
+      "lessons": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ]
+    },
+    {
+      "id": "reference",
+      "titleKey": "tracks.reference.title",
+      "lessons": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": 1,
+      "position": 1,
+      "slug": "windows-setup",
+      "trackId": "start",
+      "titleKey": "lessons.windows-setup.title",
+      "introKey": "lessons.windows-setup.intro"
+    },
+    {
+      "id": 2,
+      "position": 2,
+      "slug": "install-git",
+      "trackId": "start",
+      "titleKey": "lessons.install-git.title",
+      "introKey": "lessons.install-git.intro"
+    },
+    {
+      "id": 3,
+      "position": 3,
+      "slug": "install-uv-python",
+      "trackId": "start",
+      "titleKey": "lessons.install-uv-python.title",
+      "introKey": "lessons.install-uv-python.intro"
+    },
+    {
+      "id": 4,
+      "position": 4,
+      "slug": "github-account-repo",
+      "trackId": "start",
+      "titleKey": "lessons.github-account-repo.title",
+      "introKey": "lessons.github-account-repo.intro"
+    },
+    {
+      "id": 5,
+      "position": 5,
+      "slug": "verify-installation",
+      "trackId": "start",
+      "titleKey": "lessons.verify-installation.title",
+      "introKey": "lessons.verify-installation.intro"
+    },
+    {
+      "id": 6,
+      "position": 6,
+      "slug": "setup-troubleshooting",
+      "trackId": "start",
+      "titleKey": "lessons.setup-troubleshooting.title",
+      "introKey": "lessons.setup-troubleshooting.intro"
+    },
+    {
+      "id": 7,
+      "position": 7,
+      "slug": "project-setup",
+      "trackId": "first-project",
+      "titleKey": "lessons.project-setup.title",
+      "introKey": "lessons.project-setup.intro"
+    },
+    {
+      "id": 8,
+      "position": 8,
+      "slug": "uv",
+      "trackId": "first-project",
+      "titleKey": "lessons.uv.title",
+      "introKey": "lessons.uv.intro"
+    },
+    {
+      "id": 9,
+      "position": 9,
+      "slug": "first-html-site",
+      "trackId": "first-project",
+      "titleKey": "lessons.first-html-site.title",
+      "introKey": "lessons.first-html-site.intro"
+    },
+    {
+      "id": 10,
+      "position": 10,
+      "slug": "push-first-repository",
+      "trackId": "first-project",
+      "titleKey": "lessons.push-first-repository.title",
+      "introKey": "lessons.push-first-repository.intro"
+    },
+    {
+      "id": 11,
+      "position": 11,
+      "slug": "publish-github-pages",
+      "trackId": "first-project",
+      "titleKey": "lessons.publish-github-pages.title",
+      "introKey": "lessons.publish-github-pages.intro"
+    },
+    {
+      "id": 12,
+      "position": 12,
+      "slug": "syntax",
+      "trackId": "python",
+      "titleKey": "lessons.syntax.title",
+      "introKey": "lessons.syntax.intro"
+    },
+    {
+      "id": 13,
+      "position": 13,
+      "slug": "variables-types",
+      "trackId": "python",
+      "titleKey": "lessons.variables-types.title",
+      "introKey": "lessons.variables-types.intro"
+    },
+    {
+      "id": 14,
+      "position": 14,
+      "slug": "strings",
+      "trackId": "python",
+      "titleKey": "lessons.strings.title",
+      "introKey": "lessons.strings.intro"
+    },
+    {
+      "id": 15,
+      "position": 15,
+      "slug": "conditions",
+      "trackId": "python",
+      "titleKey": "lessons.conditions.title",
+      "introKey": "lessons.conditions.intro"
+    },
+    {
+      "id": 16,
+      "position": 16,
+      "slug": "loops",
+      "trackId": "python",
+      "titleKey": "lessons.loops.title",
+      "introKey": "lessons.loops.intro"
+    },
+    {
+      "id": 17,
+      "position": 17,
+      "slug": "collections",
+      "trackId": "python",
+      "titleKey": "lessons.collections.title",
+      "introKey": "lessons.collections.intro"
+    },
+    {
+      "id": 18,
+      "position": 18,
+      "slug": "comprehensions",
+      "trackId": "python",
+      "titleKey": "lessons.comprehensions.title",
+      "introKey": "lessons.comprehensions.intro"
+    },
+    {
+      "id": 19,
+      "position": 19,
+      "slug": "functions",
+      "trackId": "functions",
+      "titleKey": "lessons.functions.title",
+      "introKey": "lessons.functions.intro"
+    },
+    {
+      "id": 20,
+      "position": 20,
+      "slug": "function-design",
+      "trackId": "functions",
+      "titleKey": "lessons.function-design.title",
+      "introKey": "lessons.function-design.intro"
+    },
+    {
+      "id": 21,
+      "position": 21,
+      "slug": "modules-packages",
+      "trackId": "functions",
+      "titleKey": "lessons.modules-packages.title",
+      "introKey": "lessons.modules-packages.intro"
+    },
+    {
+      "id": 22,
+      "position": 22,
+      "slug": "errors",
+      "trackId": "functions",
+      "titleKey": "lessons.errors.title",
+      "introKey": "lessons.errors.intro"
+    },
+    {
+      "id": 23,
+      "position": 23,
+      "slug": "files",
+      "trackId": "functions",
+      "titleKey": "lessons.files.title",
+      "introKey": "lessons.files.intro"
+    },
+    {
+      "id": 24,
+      "position": 24,
+      "slug": "classes",
+      "trackId": "oop",
+      "titleKey": "lessons.classes.title",
+      "introKey": "lessons.classes.intro"
+    },
+    {
+      "id": 25,
+      "position": 25,
+      "slug": "dataclasses",
+      "trackId": "oop",
+      "titleKey": "lessons.dataclasses.title",
+      "introKey": "lessons.dataclasses.intro"
+    },
+    {
+      "id": 26,
+      "position": 26,
+      "slug": "composition",
+      "trackId": "oop",
+      "titleKey": "lessons.composition.title",
+      "introKey": "lessons.composition.intro"
+    },
+    {
+      "id": 27,
+      "position": 27,
+      "slug": "protocols",
+      "trackId": "oop",
+      "titleKey": "lessons.protocols.title",
+      "introKey": "lessons.protocols.intro"
+    },
+    {
+      "id": 28,
+      "position": 28,
+      "slug": "type-hints",
+      "trackId": "oop",
+      "titleKey": "lessons.type-hints.title",
+      "introKey": "lessons.type-hints.intro"
+    },
+    {
+      "id": 29,
+      "position": 29,
+      "slug": "git",
+      "trackId": "workflow",
+      "titleKey": "lessons.git.title",
+      "introKey": "lessons.git.intro"
+    },
+    {
+      "id": 30,
+      "position": 30,
+      "slug": "github",
+      "trackId": "workflow",
+      "titleKey": "lessons.github.title",
+      "introKey": "lessons.github.intro"
+    },
+    {
+      "id": 31,
+      "position": 31,
+      "slug": "testing-concepts",
+      "trackId": "quality",
+      "titleKey": "lessons.testing-concepts.title",
+      "introKey": "lessons.testing-concepts.intro"
+    },
+    {
+      "id": 32,
+      "position": 32,
+      "slug": "pytest",
+      "trackId": "quality",
+      "titleKey": "lessons.pytest.title",
+      "introKey": "lessons.pytest.intro"
+    },
+    {
+      "id": 33,
+      "position": 33,
+      "slug": "fixtures",
+      "trackId": "quality",
+      "titleKey": "lessons.fixtures.title",
+      "introKey": "lessons.fixtures.intro"
+    },
+    {
+      "id": 34,
+      "position": 34,
+      "slug": "mocking",
+      "trackId": "quality",
+      "titleKey": "lessons.mocking.title",
+      "introKey": "lessons.mocking.intro"
+    },
+    {
+      "id": 35,
+      "position": 35,
+      "slug": "coverage",
+      "trackId": "quality",
+      "titleKey": "lessons.coverage.title",
+      "introKey": "lessons.coverage.intro"
+    },
+    {
+      "id": 36,
+      "position": 36,
+      "slug": "ruff-pylint",
+      "trackId": "quality",
+      "titleKey": "lessons.ruff-pylint.title",
+      "introKey": "lessons.ruff-pylint.intro"
+    },
+    {
+      "id": 37,
+      "position": 37,
+      "slug": "pydantic-models",
+      "trackId": "backend",
+      "titleKey": "lessons.pydantic-models.title",
+      "introKey": "lessons.pydantic-models.intro"
+    },
+    {
+      "id": 38,
+      "position": 38,
+      "slug": "pydantic-validation",
+      "trackId": "backend",
+      "titleKey": "lessons.pydantic-validation.title",
+      "introKey": "lessons.pydantic-validation.intro"
+    },
+    {
+      "id": 39,
+      "position": 39,
+      "slug": "rest",
+      "trackId": "backend",
+      "titleKey": "lessons.rest.title",
+      "introKey": "lessons.rest.intro"
+    },
+    {
+      "id": 40,
+      "position": 40,
+      "slug": "fastapi-routes",
+      "trackId": "backend",
+      "titleKey": "lessons.fastapi-routes.title",
+      "introKey": "lessons.fastapi-routes.intro"
+    },
+    {
+      "id": 41,
+      "position": 41,
+      "slug": "fastapi-architecture",
+      "trackId": "backend",
+      "titleKey": "lessons.fastapi-architecture.title",
+      "introKey": "lessons.fastapi-architecture.intro"
+    },
+    {
+      "id": 42,
+      "position": 42,
+      "slug": "fastapi-errors",
+      "trackId": "backend",
+      "titleKey": "lessons.fastapi-errors.title",
+      "introKey": "lessons.fastapi-errors.intro"
+    },
+    {
+      "id": 43,
+      "position": 43,
+      "slug": "production",
+      "trackId": "backend",
+      "titleKey": "lessons.production.title",
+      "introKey": "lessons.production.intro"
+    },
+    {
+      "id": 44,
+      "position": 44,
+      "slug": "service-layer",
+      "trackId": "product",
+      "titleKey": "lessons.service-layer.title",
+      "introKey": "lessons.service-layer.intro"
+    },
+    {
+      "id": 45,
+      "position": 45,
+      "slug": "repository-pattern",
+      "trackId": "product",
+      "titleKey": "lessons.repository-pattern.title",
+      "introKey": "lessons.repository-pattern.intro"
+    },
+    {
+      "id": 46,
+      "position": 46,
+      "slug": "secrets-env",
+      "trackId": "product",
+      "titleKey": "lessons.secrets-env.title",
+      "introKey": "lessons.secrets-env.intro"
+    },
+    {
+      "id": 47,
+      "position": 47,
+      "slug": "frontend-fastapi",
+      "trackId": "product",
+      "titleKey": "lessons.frontend-fastapi.title",
+      "introKey": "lessons.frontend-fastapi.intro"
+    },
+    {
+      "id": 48,
+      "position": 48,
+      "slug": "fetch-api",
+      "trackId": "product",
+      "titleKey": "lessons.fetch-api.title",
+      "introKey": "lessons.fetch-api.intro"
+    },
+    {
+      "id": 49,
+      "position": 49,
+      "slug": "json-data",
+      "trackId": "product",
+      "titleKey": "lessons.json-data.title",
+      "introKey": "lessons.json-data.intro"
+    },
+    {
+      "id": 50,
+      "position": 50,
+      "slug": "http-crud-methods",
+      "trackId": "product",
+      "titleKey": "lessons.http-crud-methods.title",
+      "introKey": "lessons.http-crud-methods.intro"
+    },
+    {
+      "id": 51,
+      "position": 51,
+      "slug": "frontend-loading-errors",
+      "trackId": "product",
+      "titleKey": "lessons.frontend-loading-errors.title",
+      "introKey": "lessons.frontend-loading-errors.intro"
+    },
+    {
+      "id": 52,
+      "position": 52,
+      "slug": "http-status-codes",
+      "trackId": "product",
+      "titleKey": "lessons.http-status-codes.title",
+      "introKey": "lessons.http-status-codes.intro"
+    },
+    {
+      "id": 53,
+      "position": 53,
+      "slug": "pydantic-validation-errors",
+      "trackId": "product",
+      "titleKey": "lessons.pydantic-validation-errors.title",
+      "introKey": "lessons.pydantic-validation-errors.intro"
+    },
+    {
+      "id": 54,
+      "position": 54,
+      "slug": "same-origin-cors",
+      "trackId": "product",
+      "titleKey": "lessons.same-origin-cors.title",
+      "introKey": "lessons.same-origin-cors.intro"
+    },
+    {
+      "id": 55,
+      "position": 55,
+      "slug": "databases-overview",
+      "trackId": "product",
+      "titleKey": "lessons.databases-overview.title",
+      "introKey": "lessons.databases-overview.intro"
+    },
+    {
+      "id": 56,
+      "position": 56,
+      "slug": "mongodb-basics",
+      "trackId": "product",
+      "titleKey": "lessons.mongodb-basics.title",
+      "introKey": "lessons.mongodb-basics.intro"
+    },
+    {
+      "id": 57,
+      "position": 57,
+      "slug": "postgresql-basics",
+      "trackId": "product",
+      "titleKey": "lessons.postgresql-basics.title",
+      "introKey": "lessons.postgresql-basics.intro"
+    },
+    {
+      "id": 58,
+      "position": 58,
+      "slug": "redis-cache",
+      "trackId": "product",
+      "titleKey": "lessons.redis-cache.title",
+      "introKey": "lessons.redis-cache.intro"
+    },
+    {
+      "id": 59,
+      "position": 59,
+      "slug": "docker-basics",
+      "trackId": "product",
+      "titleKey": "lessons.docker-basics.title",
+      "introKey": "lessons.docker-basics.intro"
+    },
+    {
+      "id": 60,
+      "position": 60,
+      "slug": "docker-fastapi",
+      "trackId": "product",
+      "titleKey": "lessons.docker-fastapi.title",
+      "introKey": "lessons.docker-fastapi.intro"
+    },
+    {
+      "id": 61,
+      "position": 61,
+      "slug": "cicd-overview",
+      "trackId": "product",
+      "titleKey": "lessons.cicd-overview.title",
+      "introKey": "lessons.cicd-overview.intro"
+    },
+    {
+      "id": 62,
+      "position": 62,
+      "slug": "github-actions-cicd",
+      "trackId": "product",
+      "titleKey": "lessons.github-actions-cicd.title",
+      "introKey": "lessons.github-actions-cicd.intro"
+    },
+    {
+      "id": 63,
+      "position": 63,
+      "slug": "glossary",
+      "trackId": "reference",
+      "titleKey": "lessons.glossary.title",
+      "introKey": "lessons.glossary.intro"
+    },
+    {
+      "id": 64,
+      "position": 64,
+      "slug": "cheat-sheets",
+      "trackId": "reference",
+      "titleKey": "lessons.cheat-sheets.title",
+      "introKey": "lessons.cheat-sheets.intro"
+    },
+    {
+      "id": 65,
+      "position": 65,
+      "slug": "uv-command-index",
+      "trackId": "reference",
+      "titleKey": "lessons.uv-command-index.title",
+      "introKey": "lessons.uv-command-index.intro"
+    },
+    {
+      "id": 66,
+      "position": 66,
+      "slug": "git-command-index",
+      "trackId": "reference",
+      "titleKey": "lessons.git-command-index.title",
+      "introKey": "lessons.git-command-index.intro"
+    },
+    {
+      "id": 67,
+      "position": 67,
+      "slug": "pytest-index",
+      "trackId": "reference",
+      "titleKey": "lessons.pytest-index.title",
+      "introKey": "lessons.pytest-index.intro"
+    },
+    {
+      "id": 68,
+      "position": 68,
+      "slug": "python-exceptions",
+      "trackId": "reference",
+      "titleKey": "lessons.python-exceptions.title",
+      "introKey": "lessons.python-exceptions.intro"
+    },
+    {
+      "id": 69,
+      "position": 69,
+      "slug": "troubleshooting",
+      "trackId": "reference",
+      "titleKey": "lessons.troubleshooting.title",
+      "introKey": "lessons.troubleshooting.intro"
+    },
+    {
+      "id": 70,
+      "position": 70,
+      "slug": "faq",
+      "trackId": "reference",
+      "titleKey": "lessons.faq.title",
+      "introKey": "lessons.faq.intro"
+    },
+    {
+      "id": 71,
+      "position": 71,
+      "slug": "accessibility-ui-testing",
+      "trackId": "reference",
+      "titleKey": "lessons.accessibility-ui-testing.title",
+      "introKey": "lessons.accessibility-ui-testing.intro"
+    }
+  ]
+}

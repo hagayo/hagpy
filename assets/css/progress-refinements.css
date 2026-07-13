@@ -1,0 +1,94 @@
+.breadcrumbs {
+  margin-bottom: 16px;
+}
+
+.continue-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 18px 22px;
+}
+
+.continue-card > div {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: baseline;
+  justify-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.continue-card [data-i18n="learner.localProgress"] {
+  font-weight: 700;
+}
+
+.continue-card strong {
+  color: var(--brand);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.continue-card small {
+  color: var(--muted);
+}
+
+.continue-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--brand) 28%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--brand) 9%, var(--surface));
+  color: var(--brand);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.continue-card a span {
+  color: currentColor;
+}
+
+html[dir="rtl"] .continue-card {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+html[dir="rtl"] .continue-card > div {
+  grid-column: 2;
+  justify-content: end;
+}
+
+html[dir="rtl"] .continue-card a {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+@media (max-width: 650px) {
+  .continue-card,
+  html[dir="rtl"] .continue-card {
+    grid-template-columns: 1fr;
+  }
+
+  .continue-card > div,
+  html[dir="rtl"] .continue-card > div {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+    justify-content: start;
+    gap: 4px;
+  }
+
+  html[dir="rtl"] .continue-card > div {
+    justify-content: end;
+  }
+
+  .continue-card a,
+  html[dir="rtl"] .continue-card a {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+  }
+}

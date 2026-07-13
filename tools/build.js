@@ -9,11 +9,13 @@ import { referenceLessons } from '../content/reference-lessons.js';
 const root = new URL('../', import.meta.url);
 const pagesDirectory = new URL('pages/', root);
 const localesDirectory = new URL('assets/locales/', root);
+const dataDirectory = new URL('assets/data/', root);
 const catalogs = { en: Object.create(null), he: Object.create(null) };
 
 await Promise.all([
   mkdir(pagesDirectory, { recursive: true }),
   mkdir(localesDirectory, { recursive: true }),
+  mkdir(dataDirectory, { recursive: true }),
 ]);
 
 const { lessons, tracks } = await loadCurriculum(curriculumTracks);
@@ -69,6 +71,11 @@ const runtimeMessages = {
   'learner.dialog.cancel': ['Cancel', 'ביטול'],
   'learner.dialog.reset': ['Reset progress', 'איפוס ההתקדמות'],
   'learner.localProgress': ['Your local progress', 'ההתקדמות המקומית שלך'],
+  'lesson.position': ['Lesson {current} of {total}', 'שיעור {current} מתוך {total}'],
+  'ui.previous': ['Previous', 'הקודם'],
+  'ui.next': ['Next', 'הבא'],
+  'ui.finish': ['Finish', 'סיום'],
+  'ui.learningPath': ['Learning path →', 'מסלול הלימוד ←'],
   'exercise.ready': ['Ready to run.', 'מוכן להרצה.'],
   'exercise.loading': ['Loading Python and running…', 'טוען Python ומריץ…'],
   'exercise.noOutput': ['Code finished without output.', 'הקוד הסתיים ללא פלט.'],
@@ -83,7 +90,7 @@ for (const [key, [en, he]] of Object.entries(runtimeMessages)) register(key, en,
 function documentHead(pageKey, titleEn, titleHe, assetPrefix = '../') {
   register(`${pageKey}.pageTitle`, `${titleEn} - HagPy`, `${titleHe} - HagPy`);
   register('meta.description', 'Professional Python learning path from zero to production', 'מסלול מקצועי ללימוד פייתון מאפס ועד פרודקשן');
-  return `<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" data-i18n-content="meta.description" content=""><title data-i18n="${pageKey}.pageTitle"></title><link rel="icon" type="image/svg+xml" href="${assetPrefix}assets/images/hagpy-mark.svg"><link rel="stylesheet" href="${assetPrefix}assets/css/tokens.css"><link rel="stylesheet" href="${assetPrefix}assets/css/base.css"><link rel="stylesheet" href="${assetPrefix}assets/css/layout.css"><link rel="stylesheet" href="${assetPrefix}assets/css/components.css"><link rel="stylesheet" href="${assetPrefix}assets/css/rtl.css"></head>`;
+  return `<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" data-i18n-content="meta.description" content=""><title data-i18n="${pageKey}.pageTitle"></title><link rel="icon" type="image/svg+xml" href="${assetPrefix}assets/images/hagpy-mark.svg"><link rel="stylesheet" href="${assetPrefix}assets/css/tokens.css"><link rel="stylesheet" href="${assetPrefix}assets/css/base.css"><link rel="stylesheet" href="${assetPrefix}assets/css/layout.css"><link rel="stylesheet" href="${assetPrefix}assets/css/components.css"><link rel="stylesheet" href="${assetPrefix}assets/css/rtl.css"><link rel="stylesheet" href="${assetPrefix}assets/css/progress-refinements.css"></head>`;
 }
 
 function siteHeader(pathPrefix = '../') {
@@ -101,14 +108,7 @@ function siteHeader(pathPrefix = '../') {
 }
 
 function sidebar(currentSlug) {
-  return tracks.map(track => {
-    const title = translated(`tracks.${track.id}.title`, track.en, track.he, 'h2', ' class="track-title"');
-    const links = track.lessons.map(item => translated(
-      `lessons.${item.slug}.title`, item.en, item.he, 'a',
-      ` class="lesson-link${item.slug === currentSlug ? ' active' : ''}" data-lesson-slug="${item.slug}" href="${item.slug}.html"`,
-    )).join('');
-    return `<section data-track>${title}${links}</section>`;
-  }).join('');
+  return '<div data-curriculum-sidebar></div>';
 }
 
 function codeBlock(code, filename = 'example.py') {
@@ -239,11 +239,7 @@ function referenceLesson(item, index, guide) {
 }
 
 function lessonNavigation(index) {
-  const previous = lessons[index - 1];
-  const next = lessons[index + 1];
-  const previousLink = previous ? `<a href="${previous.slug}.html">${translated('ui.previous', 'Previous', 'הקודם', 'small')}<b>← ${translated(`lessons.${previous.slug}.title`, previous.en, previous.he)}</b></a>` : '<span></span>';
-  const nextLink = next ? `<a href="${next.slug}.html">${translated('ui.next', 'Next', 'הבא', 'small')}<b>${translated(`lessons.${next.slug}.title`, next.en, next.he)} →</b></a>` : `<a href="../index.html">${translated('ui.finish', 'Finish', 'סיום', 'small')}<b>${translated('ui.learningPath', 'Learning path →', 'מסלול הלימוד ←')}</b></a>`;
-  return `<nav class="lesson-navigation">${previousLink}${nextLink}</nav>`;
+  return '<nav class="lesson-navigation" data-lesson-navigation></nav>';
 }
 
 function exerciseConfig(exercise, slug) {
@@ -261,10 +257,29 @@ function exerciseConfig(exercise, slug) {
 
 function pageConfig(item) {
   return {
-    slug: item.slug,
+    lessonId: item.id,
     totalLessons: lessons.length,
     exercise: exerciseConfig(exercises[item.slug], item.slug),
-    lessons: lessons.map(lesson => ({ slug: lesson.slug, titleKey: `lessons.${lesson.slug}.title` })),
+  };
+}
+
+function curriculumManifest() {
+  return {
+    version: 1,
+    totalLessons: lessons.length,
+    tracks: tracks.map(track => ({
+      id: track.id,
+      titleKey: `tracks.${track.id}.title`,
+      lessons: track.lessons.map(lesson => lesson.id),
+    })),
+    lessons: lessons.map(lesson => ({
+      id: lesson.id,
+      position: lesson.position,
+      slug: lesson.slug,
+      trackId: lesson.trackId,
+      titleKey: `lessons.${lesson.slug}.title`,
+      introKey: `lessons.${lesson.slug}.intro`,
+    })),
   };
 }
 
@@ -287,13 +302,12 @@ function lessonPage(item, index) {
   const lessonType = referenceGuide ? translated(`reference.${item.slug}.duration`, `${referenceGuide.minutes} min`, `${referenceGuide.minutes} דקות`, 'span', ' class="pill"') : guide ? '<span class="pill">Windows 10/11</span>' : productGuide ? translated('lesson.deep', 'Deep lesson', 'שיעור מעמיק', 'span', ' class="pill"') : '<span class="pill">10–15 min</span>';
   const searchKey = translatedAttribute('ui.search.placeholder', 'Search lessons…', 'חיפוש שיעורים…');
   const config = JSON.stringify(pageConfig(item)).replaceAll('<', '\\u003c');
-  return `${documentHead(pageKey, item.en, item.he)}<body>${siteHeader()}<div class="app-layout"><aside class="sidebar" data-i18n-aria-label="${translatedAttribute('ui.curriculum', 'Curriculum', 'תוכנית הלימודים')}"><input class="sidebar-search" data-search type="search" data-i18n-placeholder="${searchKey}">${sidebar(item.slug)}</aside><main id="content" class="main-content"><article class="lesson-shell"><div class="breadcrumbs"><a href="../index.html">HagPy</a> / ${translated(`tracks.${item.trackId}.title`, item.trackEn, item.trackHe)} / ${translated(`${pageKey}.title`, item.en, item.he)}</div><header class="lesson-header">${translated(`${pageKey}.position`, `Lesson ${index + 1} of ${lessons.length}`, `שיעור ${index + 1} מתוך ${lessons.length}`, 'div', ' class="lesson-kicker"')}${translated(`${pageKey}.title`, item.en, item.he, 'h1')}${translated(`${pageKey}.intro`, item.introEn, item.introHe, 'p')}<div class="lesson-meta">${lessonType}<button class="complete-button" data-complete-lesson type="button"></button></div></header>${content}${lessonNavigation(index)}</article><footer class="site-footer"><div class="container"><span>HagPy</span>${translated('ui.tagline', 'Python from zero to production', 'פייתון מאפס ועד פרודקשן')}</div></footer></main></div><div class="toast" role="status" aria-live="polite"></div><script id="page-config" type="application/json">${config}</script><script type="module" src="../assets/js/app.js?v=20260712"></script></body></html>`;
+  return `${documentHead(pageKey, item.en, item.he)}<body>${siteHeader()}<div class="app-layout"><aside class="sidebar" data-i18n-aria-label="${translatedAttribute('ui.curriculum', 'Curriculum', 'תוכנית הלימודים')}"><input class="sidebar-search" data-search type="search" data-i18n-placeholder="${searchKey}">${sidebar(item.slug)}</aside><main id="content" class="main-content"><article class="lesson-shell"><div class="breadcrumbs" data-breadcrumbs></div><header class="lesson-header"><div class="lesson-kicker" data-lesson-position></div>${translated(`${pageKey}.title`, item.en, item.he, 'h1')}${translated(`${pageKey}.intro`, item.introEn, item.introHe, 'p')}<div class="lesson-meta">${lessonType}<button class="complete-button" data-complete-lesson type="button"></button></div></header>${content}${lessonNavigation(index)}</article><footer class="site-footer"><div class="container"><span>HagPy</span>${translated('ui.tagline', 'Python from zero to production', 'פייתון מאפס ועד פרודקשן')}</div></footer></main></div><div class="toast" role="status" aria-live="polite"></div><script id="page-config" type="application/json">${config}</script><script type="module" src="../assets/js/app.js?v=20260712"></script></body></html>`;
 }
 
 function homePage() {
   const config = JSON.stringify({
     slug: '', totalLessons: lessons.length,
-    lessons: lessons.map(item => ({ slug: item.slug, titleKey: `lessons.${item.slug}.title` })),
   });
   const trackRows = tracks.map((track, index) => {
     const links = track.lessons.map(item => translated(`lessons.${item.slug}.title`, item.en, item.he, 'a', ` href="pages/${item.slug}.html"`)).join('');
@@ -303,7 +317,11 @@ function homePage() {
 }
 
 const pages = lessons.map((item, index) => writeIfChanged(new URL(`${item.slug}.html`, pagesDirectory), lessonPage(item, index)));
-const pageWrites = await Promise.all([...pages, writeIfChanged(new URL('index.html', root), homePage())]);
+const pageWrites = await Promise.all([
+  ...pages,
+  writeIfChanged(new URL('index.html', root), homePage()),
+  writeIfChanged(new URL('curriculum.json', dataDirectory), `${JSON.stringify(curriculumManifest(), null, 2)}\n`),
+]);
 
 const enKeys = Object.keys(catalogs.en).sort();
 const heKeys = Object.keys(catalogs.he).sort();

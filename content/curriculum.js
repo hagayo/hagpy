@@ -1,143 +1,82 @@
 export const tracks = [
   {
-    "id": "start",
-    "en": "Getting started",
-    "he": "מתחילים",
-    "lessons": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6
-    ]
+    id: 'start',
+    en: 'Getting started',
+    he: 'מתחילים',
+    descriptionEn: 'Prepare the local development environment deliberately: Windows, PowerShell, VS Code, Git, uv, Python and a clean verification checklist.',
+    descriptionHe: 'מכינים סביבת פיתוח מקומית בצורה מסודרת: Windows, PowerShell, VS Code, Git, uv, Python ורשימת בדיקה נקייה.',
+    lessons: [1, 2, 3, 4, 5, 6],
   },
   {
-    "id": "first-project",
-    "en": "Our first project",
-    "he": "הפרוייקט הראשון שלנו",
-    "lessons": [
-      7,
-      8,
-      9,
-      10,
-      11
-    ]
+    id: 'first-project',
+    en: 'Our first project',
+    he: 'הפרוייקט הראשון שלנו',
+    descriptionEn: 'Create the first real project, manage dependencies with uv, build a local HTML page, push it to GitHub and publish it with GitHub Pages.',
+    descriptionHe: 'יוצרים את הפרויקט האמיתי הראשון, מנהלים תלויות עם uv, בונים עמוד HTML מקומי, מעלים ל-GitHub ומפרסמים עם GitHub Pages.',
+    lessons: [7, 8, 9, 10, 11],
   },
   {
-    "id": "python",
-    "en": "Python foundations",
-    "he": "יסודות Python",
-    "lessons": [
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18
-    ]
+    id: 'python',
+    en: 'Python foundations',
+    he: 'יסודות Python',
+    descriptionEn: 'Build the language basics: syntax, values, variables, strings, decisions, loops and collections.',
+    descriptionHe: 'בונים את יסודות השפה: תחביר, ערכים, משתנים, מחרוזות, החלטות, לולאות ואוספים.',
+    lessons: [12, 13, 14, 15, 16, 17, 18],
   },
   {
-    "id": "functions",
-    "en": "Functions and modules",
-    "he": "פונקציות ומודולים",
-    "lessons": [
-      19,
-      20,
-      21,
-      22,
-      23
-    ]
+    id: 'functions',
+    en: 'Functions and modules',
+    he: 'פונקציות ומודולים',
+    descriptionEn: 'Learn how to divide code into small named units, move code between files and handle errors clearly.',
+    descriptionHe: 'לומדים לחלק קוד ליחידות קטנות עם שם, להעביר קוד בין קבצים ולטפל בשגיאות בצורה ברורה.',
+    lessons: [19, 20, 21, 22, 23],
   },
   {
-    "id": "oop",
-    "en": "Object-oriented Python",
-    "he": "תכנות מונחה עצמים",
-    "lessons": [
-      24,
-      25,
-      26,
-      27,
-      28
-    ]
+    id: 'oop',
+    en: 'Object-oriented Python',
+    he: 'תכנות מונחה עצמים',
+    descriptionEn: 'Use objects when state and behavior belong together, then improve design with dataclasses, composition, protocols and type hints.',
+    descriptionHe: 'משתמשים באובייקטים כאשר מצב והתנהגות שייכים יחד, ואז משפרים עיצוב עם dataclasses, composition, protocols ו-type hints.',
+    lessons: [24, 25, 26, 27, 28],
   },
   {
-    "id": "workflow",
-    "en": "Professional workflow",
-    "he": "תהליך עבודה מקצועי",
-    "lessons": [
-      29,
-      30
-    ]
+    id: 'workflow',
+    en: 'Professional workflow',
+    he: 'תהליך עבודה מקצועי',
+    descriptionEn: 'Work like a developer: local Git history, GitHub collaboration and reviewable changes.',
+    descriptionHe: 'עובדים כמו מפתחים: היסטוריית Git מקומית, שיתוף פעולה ב-GitHub ושינויים שניתן לבדוק.',
+    lessons: [29, 30],
   },
   {
-    "id": "quality",
-    "en": "Testing and quality",
-    "he": "בדיקות ואיכות",
-    "lessons": [
-      31,
-      32,
-      33,
-      34,
-      35,
-      36
-    ]
+    id: 'quality',
+    en: 'Testing and quality',
+    he: 'בדיקות ואיכות',
+    descriptionEn: 'Add confidence with pytest, fixtures, mocks, coverage, Ruff and Pylint before code reaches production.',
+    descriptionHe: 'מוסיפים ביטחון בעזרת pytest, fixtures, mocks, coverage, Ruff ו-Pylint לפני שקוד מגיע לפרודקשן.',
+    lessons: [31, 32, 33, 34, 35, 36],
   },
   {
-    "id": "backend",
-    "en": "APIs and production",
-    "he": "API ופרודקשן",
-    "lessons": [
-      37,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43
-    ]
+    id: 'backend',
+    en: 'APIs and production',
+    he: 'API ופרודקשן',
+    descriptionEn: 'Move from Python code to real HTTP APIs with Pydantic, REST, FastAPI and production-oriented error handling.',
+    descriptionHe: 'עוברים מקוד Python ל-HTTP APIs אמיתיים עם Pydantic, REST, FastAPI וטיפול שגיאות שמתאים לפרודקשן.',
+    lessons: [37, 38, 39, 40, 41, 42, 43],
   },
   {
-    "id": "product",
-    "en": "Build a real FastAPI product",
-    "he": "בניית מוצר FastAPI אמיתי",
-    "lessons": [
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62
-    ]
+    id: 'product',
+    en: 'Build a real FastAPI product',
+    he: 'בניית מוצר FastAPI אמיתי',
+    descriptionEn: 'Connect frontend, backend, databases, cache, containers and CI/CD into one realistic production path.',
+    descriptionHe: 'מחברים frontend, backend, מסדי נתונים, cache, containers ו-CI/CD למסלול פרודקשן מציאותי אחד.',
+    lessons: [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62],
   },
   {
-    "id": "reference",
-    "en": "Reference and help",
-    "he": "עזר ומידע שימושי",
-    "lessons": [
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71
-    ]
-  }
+    id: 'reference',
+    en: 'Reference and help',
+    he: 'עזר ומידע שימושי',
+    descriptionEn: 'Use focused reference pages when you need commands, concepts, troubleshooting or quick review.',
+    descriptionHe: 'משתמשים בעמודי עזר ממוקדים כשצריך פקודות, מושגים, פתרון תקלות או חזרה מהירה.',
+    lessons: [63, 64, 65, 66, 67, 68, 69, 70, 71],
+  },
 ];

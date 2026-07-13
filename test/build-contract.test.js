@@ -70,6 +70,37 @@ test('curriculum uses stable numeric ids and lesson content lives in Markdown', 
   }
 });
 
+test('runtime curriculum manifest separates stable ids from lesson positions', async () => {
+  const manifest = JSON.parse(await readFile(new URL('assets/data/curriculum.json', root), 'utf8'));
+  assert.equal(manifest.totalLessons, 71);
+
+  const positions = manifest.lessons.map(lesson => lesson.position);
+  assert.deepEqual(positions, Array.from({ length: 71 }, (_, index) => index + 1));
+
+  for (const lesson of manifest.lessons) {
+    assert.equal(typeof lesson.id, 'number');
+    assert.equal(typeof lesson.position, 'number');
+    assert.notEqual(lesson.id, undefined);
+    assert.match(lesson.titleKey, /^lessons\..+\.title$/);
+  }
+
+  assert.deepEqual(manifest.tracks[1].lessons, [7, 8, 9, 10, 11]);
+});
+
+test('lesson pages defer navigation, breadcrumbs and sidebar composition to runtime ids', async () => {
+  const html = await readFile(new URL('pages/uv.html', root), 'utf8');
+  const config = JSON.parse(html.match(/<script id="page-config" type="application\/json">([^<]+)<\/script>/)[1]);
+
+  assert.deepEqual(config, { lessonId: 8, totalLessons: 71, exercise: null });
+  assert.match(html, /data-curriculum-sidebar/);
+  assert.match(html, /data-breadcrumbs/);
+  assert.match(html, /data-lesson-position/);
+  assert.match(html, /data-lesson-navigation/);
+  assert.doesNotMatch(html, /href="project-setup\.html"/);
+  assert.doesNotMatch(html, /href="first-html-site\.html"/);
+  assert.doesNotMatch(html, /data-lesson-slug/);
+});
+
 test('first chapters follow the approved learning order', () => {
   assert.deepEqual(tracks.slice(0, 3).map(track => [track.id, track.he]), [
     ['start', 'מתחילים'],

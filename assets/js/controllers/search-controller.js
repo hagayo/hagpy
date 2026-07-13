@@ -17,12 +17,12 @@ export class SearchController {
   }
 
   render(results) {
-    const allowed = new Set(results.map(item => item.slug));
-    document.querySelectorAll('[data-lesson-slug]').forEach(link => {
-      link.hidden = !allowed.has(link.dataset.lessonSlug);
+    const allowed = new Set(results.map(item => String(item.id)));
+    document.querySelectorAll('[data-lesson-id]').forEach(link => {
+      link.hidden = !allowed.has(link.dataset.lessonId);
     });
     document.querySelectorAll('[data-track]').forEach(track => {
-      track.hidden = ![...track.querySelectorAll('[data-lesson-slug]')].some(link => !link.hidden);
+      track.hidden = ![...track.querySelectorAll('[data-lesson-id]')].some(link => !link.hidden);
     });
   }
 }

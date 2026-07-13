@@ -9,12 +9,14 @@ export class LearnerController {
   }
 
   initialize() {
-    this.progress.prune(this.config.lessons.map(item => item.slug));
+    const lessons = this.config.curriculum.lessons ?? [];
+    this.progress.migrateSlugs(lessons);
+    this.progress.prune(lessons.map(item => item.id));
     this.#renderShell();
     this.#bind();
-    if (this.config.slug) {
-      const index = this.config.lessons.findIndex(item => item.slug === this.config.slug);
-      this.progress.visit(this.config.slug, index);
+    if (this.config.lessonId) {
+      const lesson = lessons.find(item => item.id === this.config.lessonId);
+      this.progress.visit(this.config.lessonId, lesson?.position ?? 0);
       this.service.saveProgress(this.progress);
     }
     this.#render();
@@ -53,8 +55,8 @@ export class LearnerController {
   }
 
   #completeLesson() {
-    if (!this.config.slug) return;
-    this.progress.completeLesson(this.config.slug);
+    if (!this.config.lessonId) return;
+    this.progress.completeLesson(this.config.lessonId);
     this.service.saveProgress(this.progress);
     this.#render();
     this.#toast(this.i18n.t('learner.lessonMarkedComplete'));
@@ -62,7 +64,7 @@ export class LearnerController {
 
   #onExercisePassed({ exerciseId, attempts }) {
     this.progress.passExercise(exerciseId, attempts);
-    this.progress.completeLesson(this.config.slug);
+    this.progress.completeLesson(this.config.lessonId);
     this.service.saveProgress(this.progress);
     this.#render();
     this.#toast(this.i18n.t('learner.exercisePassed'));
@@ -99,15 +101,15 @@ export class LearnerController {
 
     const completeButton = document.querySelector('[data-complete-lesson]');
     if (completeButton) {
-      const done = this.progress.isCompleted(this.config.slug);
+      const done = this.progress.isCompleted(this.config.lessonId);
       completeButton.textContent = this.i18n.t(done ? 'learner.lessonCompleted' : 'learner.markComplete');
       completeButton.disabled = done;
     }
 
     const continueLink = document.querySelector('[data-continue-link]');
-    if (continueLink && this.progress.lastLessonSlug) {
-      const lesson = this.config.lessons.find(item => item.slug === this.progress.lastLessonSlug);
-      continueLink.href = `pages/${this.progress.lastLessonSlug}.html`;
+    if (continueLink && this.progress.lastLessonId) {
+      const lesson = this.config.curriculum.lessons.find(item => item.id === this.progress.lastLessonId);
+      continueLink.href = lesson ? `pages/${lesson.slug}.html` : '#';
       continueLink.hidden = false;
       continueLink.querySelector('b').textContent = this.i18n.t('learner.continueFrom', {
         lesson: lesson ? this.i18n.t(lesson.titleKey) : '',

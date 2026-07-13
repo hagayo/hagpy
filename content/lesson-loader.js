@@ -102,6 +102,7 @@ async function readLesson(record, locale) {
 export async function loadCurriculum(curriculumTracks) {
   const lessons = [];
   const tracks = [];
+  let position = 1;
 
   for (const track of curriculumTracks) {
     const resolvedLessons = [];
@@ -125,6 +126,7 @@ export async function loadCurriculum(curriculumTracks) {
 
       const lesson = {
         id: lessonId,
+        position,
         slug: record.slug,
         source: record.source,
         en: enSource.meta.title,
@@ -144,6 +146,7 @@ export async function loadCurriculum(curriculumTracks) {
 
       lessons.push(lesson);
       resolvedLessons.push(lesson);
+      position += 1;
     }
 
     tracks.push({

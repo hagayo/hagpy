@@ -3,11 +3,13 @@ import { EventBus } from './core/event-bus.js';
 import { PreferencesService } from './services/preferences-service.js';
 import { LearnerStorageService } from './services/learner-storage-service.js';
 import { SearchService } from './services/search-service.js';
+import { CurriculumService } from './services/curriculum-service.js';
 import { PythonRunnerService } from './services/python-runner-service.js';
 import { I18nService } from './services/i18n-service.js';
 import { ThemeController } from './controllers/theme-controller.js';
 import { I18nController } from './controllers/i18n-controller.js';
 import { NavigationController } from './controllers/navigation-controller.js';
+import { CurriculumController } from './controllers/curriculum-controller.js';
 import { SearchController } from './controllers/search-controller.js';
 import { LessonController } from './controllers/lesson-controller.js';
 import { LearnerController } from './controllers/learner-controller.js';
@@ -29,14 +31,16 @@ async function bootstrap() {
   const events = new EventBus();
   const preferences = new PreferencesService(storage, events);
   const i18n = new I18nService();
+  const curriculum = await new CurriculumService().load();
 
   new ThemeController(preferences).initialize();
   await new I18nController(i18n, preferences, events).initialize();
   new NavigationController().initialize();
-  new SearchController(new SearchService(config.lessons ?? []), i18n, events).initialize();
+  new CurriculumController(curriculum, config, i18n, events).initialize();
+  new SearchController(new SearchService(curriculum.lessons ?? []), i18n, events).initialize();
   new LessonController(i18n).initialize();
   new LearnerController(
-    new LearnerStorageService(storage, sessionStorage), events, config, i18n,
+    new LearnerStorageService(storage, sessionStorage), events, { ...config, curriculum }, i18n,
   ).initialize();
 
   if (config.exercise) {
