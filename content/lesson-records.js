@@ -353,5 +353,10 @@ export const lessonRecords = [
     "id": 71,
     "slug": "accessibility-ui-testing",
     "source": "071-accessibility-ui-testing"
+  },
+  {
+    "id": 72,
+    "slug": "course-welcome",
+    "source": "072-course-welcome"
   }
 ];

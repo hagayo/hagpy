@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { tracks as curriculumTracks } from '../content/curriculum.js';
+import { openingLessonId, tracks as curriculumTracks } from '../content/curriculum.js';
 import { loadCurriculum } from '../content/lesson-loader.js';
 import { exercises } from '../content/exercises.js';
 import { installGuides } from '../content/install-guides.js';
@@ -18,7 +18,7 @@ await Promise.all([
   mkdir(dataDirectory, { recursive: true }),
 ]);
 
-const { lessons, tracks } = await loadCurriculum(curriculumTracks);
+const { lessons, tracks } = await loadCurriculum(curriculumTracks, { openingLessonId });
 
 const escapeHtml = value => String(value)
   .replaceAll('&', '&amp;')
@@ -90,7 +90,7 @@ for (const [key, [en, he]] of Object.entries(runtimeMessages)) register(key, en,
 function documentHead(pageKey, titleEn, titleHe, assetPrefix = '../') {
   register(`${pageKey}.pageTitle`, `${titleEn} - HagPy`, `${titleHe} - HagPy`);
   register('meta.description', 'Professional Python learning path from zero to production', 'מסלול מקצועי ללימוד פייתון מאפס ועד פרודקשן');
-  return `<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" data-i18n-content="meta.description" content=""><title data-i18n="${pageKey}.pageTitle"></title><link rel="icon" type="image/svg+xml" href="${assetPrefix}assets/images/hagpy-mark.svg"><link rel="stylesheet" href="${assetPrefix}assets/css/tokens.css"><link rel="stylesheet" href="${assetPrefix}assets/css/base.css"><link rel="stylesheet" href="${assetPrefix}assets/css/layout.css"><link rel="stylesheet" href="${assetPrefix}assets/css/components.css"><link rel="stylesheet" href="${assetPrefix}assets/css/rtl.css"><link rel="stylesheet" href="${assetPrefix}assets/css/progress-refinements.css"></head>`;
+  return `<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" data-i18n-content="meta.description" content=""><title data-i18n="${pageKey}.pageTitle"></title><link rel="icon" type="image/svg+xml" href="${assetPrefix}assets/images/hagpy-mark.svg"><link rel="stylesheet" href="${assetPrefix}assets/css/tokens.css"><link rel="stylesheet" href="${assetPrefix}assets/css/base.css"><link rel="stylesheet" href="${assetPrefix}assets/css/layout.css"><link rel="stylesheet" href="${assetPrefix}assets/css/components.css"><link rel="stylesheet" href="${assetPrefix}assets/css/rtl.css"><link rel="stylesheet" href="${assetPrefix}assets/css/navigation-refinements.css"><link rel="stylesheet" href="${assetPrefix}assets/css/progress-refinements.css"></head>`;
 }
 
 function siteHeader(pathPrefix = '../') {
@@ -221,7 +221,11 @@ function blockLesson(item) {
     return `<section class="lesson-section">${title}${paragraphs}</section>`;
   }).join('');
 
-  return `${blocks}<section class="lesson-section">${translated('lesson.tryYourself', 'Try it yourself', 'תרגול עצמי', 'h2')}${exercisePanel(exercises[item.slug], item.slug)}</section>`;
+  const hasAuthoredExercise = item.blocksEn.some(block => block.type === 'exercise');
+  const fallbackExercise = hasAuthoredExercise
+    ? ''
+    : `<section class="lesson-section">${translated('lesson.tryYourself', 'Try it yourself', 'תרגול עצמי', 'h2')}${exercisePanel(exercises[item.slug], item.slug)}</section>`;
+  return `${blocks}${fallbackExercise}`;
 }
 
 function referenceLesson(item, index, guide) {
@@ -266,6 +270,7 @@ function pageConfig(item) {
 function curriculumManifest() {
   return {
     version: 1,
+    openingLessonId,
     totalLessons: lessons.length,
     tracks: tracks.map(track => ({
       id: track.id,
@@ -313,7 +318,7 @@ function homePage() {
     const links = track.lessons.map(item => translated(`lessons.${item.slug}.title`, item.en, item.he, 'a', ` href="pages/${item.slug}.html"`)).join('');
     return `<section class="home-track"><span class="track-number">${String(index + 1).padStart(2, '0')}</span><div>${translated(`tracks.${track.id}.title`, track.en, track.he, 'h3')}<p>${links}</p></div>${translated(`home.track.${track.id}.count`, `${track.lessons.length} lessons`, `${track.lessons.length} שיעורים`, 'b')}</section>`;
   }).join('');
-  return `${documentHead('home', 'Python from zero to production', 'פייתון מאפס ועד פרודקשן', '')}<body>${siteHeader('')}<main><section class="home-hero container"><div>${translated('home.kicker', 'MODERN PYTHON ENGINEERING', 'הנדסת פייתון מודרנית', 'p', ' class="lesson-kicker"')}<h1>${translated('home.title', 'Learn Python.', 'לומדים פייתון.')}<br>${translated('home.titleAccent', 'Build like a professional.', 'בונים כמו מקצוענים.', 'em')}</h1>${translated('home.intro', 'A complete, practical path from your first variable to tested FastAPI services and automated CI/CD. Every topic has its own lesson, example, mistakes and exercise.', 'מסלול מעשי ושלם מהמשתנה הראשון ועד שירותי FastAPI בדוקים ו-CI/CD אוטומטי. לכל נושא שיעור, דוגמה, טעויות ותרגול משלו.', 'p')}${translated('home.start', 'Start the Windows setup →', 'מתחילים בהתקנת Windows ←', 'a', ' class="start-button" href="pages/windows-setup.html"')}</div><div class="hero-code"><b>production-ready.py</b><pre>uv sync --frozen\nruff check .\npylint src\npytest --cov\nfastapi run</pre></div></section><section class="home-path container"><div class="home-heading"><div>${translated('home.lessonCount', `${lessons.length} FOCUSED LESSONS`, `${lessons.length} שיעורים ממוקדים`, 'span', ' class="lesson-kicker"')}${translated('home.pathTitle', 'From setup to production', 'מהתקנה ועד פרודקשן', 'h2')}</div>${translated('home.pathIntro', 'Follow the path in order or jump directly to the tool you need.', 'התקדמו לפי הסדר או עברו ישירות לכלי שאתם צריכים.', 'p')}</div>${trackRows}</section></main><div class="toast" role="status" aria-live="polite"></div><script id="page-config" type="application/json">${config}</script><script type="module" src="assets/js/app.js?v=20260712"></script></body></html>`;
+  return `${documentHead('home', 'Python from zero to production', 'פייתון מאפס ועד פרודקשן', '')}<body>${siteHeader('')}<main><section class="home-hero container"><div>${translated('home.kicker', 'MODERN PYTHON ENGINEERING', 'הנדסת פייתון מודרנית', 'p', ' class="lesson-kicker"')}<h1>${translated('home.title', 'Learn Python.', 'לומדים פייתון.')}<br>${translated('home.titleAccent', 'Build like a professional.', 'בונים כמו מקצוענים.', 'em')}</h1>${translated('home.intro', 'A complete, practical path from your first variable to tested FastAPI services and automated CI/CD. Every topic has its own lesson, example, mistakes and exercise.', 'מסלול מעשי ושלם מהמשתנה הראשון ועד שירותי FastAPI בדוקים ו-CI/CD אוטומטי. לכל נושא שיעור, דוגמה, טעויות ותרגול משלו.', 'p')}${translated('home.start', 'Start your journey →', 'מתחילים את המסע ←', 'a', ' class="start-button" href="pages/course-welcome.html"')}</div><div class="hero-code"><b>production-ready.py</b><pre>uv sync --frozen\nruff check .\npylint src\npytest --cov\nfastapi run</pre></div></section><section class="home-path container"><div class="home-heading"><div>${translated('home.lessonCount', `${lessons.length} FOCUSED LESSONS`, `${lessons.length} שיעורים ממוקדים`, 'span', ' class="lesson-kicker"')}${translated('home.pathTitle', 'From setup to production', 'מהתקנה ועד פרודקשן', 'h2')}</div>${translated('home.pathIntro', 'Follow the path in order or jump directly to the tool you need.', 'התקדמו לפי הסדר או עברו ישירות לכלי שאתם צריכים.', 'p')}</div>${trackRows}</section></main><div class="toast" role="status" aria-live="polite"></div><script id="page-config" type="application/json">${config}</script><script type="module" src="assets/js/app.js?v=20260712"></script></body></html>`;
 }
 
 const pages = lessons.map((item, index) => writeIfChanged(new URL(`${item.slug}.html`, pagesDirectory), lessonPage(item, index)));

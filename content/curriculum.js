@@ -1,3 +1,5 @@
+export const openingLessonId = 72;
+
 export const tracks = [
   {
     id: 'start',

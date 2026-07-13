@@ -99,54 +99,61 @@ async function readLesson(record, locale) {
   };
 }
 
-export async function loadCurriculum(curriculumTracks) {
+export async function loadCurriculum(curriculumTracks, { openingLessonId = null } = {}) {
   const lessons = [];
   const tracks = [];
   let position = 1;
+
+  const resolveLesson = async (lessonId, track = null) => {
+    const record = recordsById.get(lessonId);
+    if (!record) throw new Error(`Unknown lesson id ${lessonId}${track ? ` in track ${track.id}` : ''}`);
+
+    const [enSource, heSource] = await Promise.all([
+      readLesson(record, 'en'),
+      readLesson(record, 'he'),
+    ]);
+
+    if (Number(enSource.meta.id) !== lessonId || Number(heSource.meta.id) !== lessonId) {
+      throw new Error(`Lesson file id mismatch for lesson ${lessonId}`);
+    }
+
+    if (enSource.meta.slug !== record.slug || heSource.meta.slug !== record.slug) {
+      throw new Error(`Lesson file slug mismatch for lesson ${lessonId}`);
+    }
+
+    const lesson = {
+      id: lessonId,
+      position,
+      slug: record.slug,
+      source: record.source,
+      en: enSource.meta.title,
+      he: heSource.meta.title,
+      introEn: enSource.meta.intro,
+      introHe: heSource.meta.intro,
+      layout: enSource.meta.layout || 'blocks',
+      trackId: track?.id ?? null,
+      trackEn: track?.en ?? null,
+      trackHe: track?.he ?? null,
+      blocksEn: enSource.blocks,
+      blocksHe: heSource.blocks,
+      code: extractCode(enSource.blocks),
+      pointsEn: extractChecklist(enSource.blocks),
+      pointsHe: extractChecklist(heSource.blocks),
+    };
+
+    lessons.push(lesson);
+    position += 1;
+    return lesson;
+  };
+
+  if (openingLessonId !== null) await resolveLesson(openingLessonId);
 
   for (const track of curriculumTracks) {
     const resolvedLessons = [];
 
     for (const lessonId of track.lessons) {
-      const record = recordsById.get(lessonId);
-      if (!record) throw new Error(`Unknown lesson id ${lessonId} in track ${track.id}`);
-
-      const [enSource, heSource] = await Promise.all([
-        readLesson(record, 'en'),
-        readLesson(record, 'he'),
-      ]);
-
-      if (Number(enSource.meta.id) !== lessonId || Number(heSource.meta.id) !== lessonId) {
-        throw new Error(`Lesson file id mismatch for lesson ${lessonId}`);
-      }
-
-      if (enSource.meta.slug !== record.slug || heSource.meta.slug !== record.slug) {
-        throw new Error(`Lesson file slug mismatch for lesson ${lessonId}`);
-      }
-
-      const lesson = {
-        id: lessonId,
-        position,
-        slug: record.slug,
-        source: record.source,
-        en: enSource.meta.title,
-        he: heSource.meta.title,
-        introEn: enSource.meta.intro,
-        introHe: heSource.meta.intro,
-        layout: enSource.meta.layout || 'blocks',
-        trackId: track.id,
-        trackEn: track.en,
-        trackHe: track.he,
-        blocksEn: enSource.blocks,
-        blocksHe: heSource.blocks,
-        code: extractCode(enSource.blocks),
-        pointsEn: extractChecklist(enSource.blocks),
-        pointsHe: extractChecklist(heSource.blocks),
-      };
-
-      lessons.push(lesson);
+      const lesson = await resolveLesson(lessonId, track);
       resolvedLessons.push(lesson);
-      position += 1;
     }
 
     tracks.push({

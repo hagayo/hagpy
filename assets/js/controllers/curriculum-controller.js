@@ -26,7 +26,12 @@ export class CurriculumController {
     const container = this.document.querySelector('[data-curriculum-sidebar]');
     if (!container) return;
 
-    container.innerHTML = this.curriculum.tracks.map(track => {
+    const openingLesson = this.lessons.find(item => item.id === this.curriculum.openingLessonId);
+    const openingLink = openingLesson
+      ? `<a class="lesson-link curriculum-opening-link${openingLesson.id === this.config.lessonId ? ' active' : ''}" data-lesson-id="${openingLesson.id}" href="${openingLesson.slug}.html" data-i18n="${openingLesson.titleKey}"></a>`
+      : '';
+
+    container.innerHTML = openingLink + this.curriculum.tracks.map(track => {
       const links = track.lessons.map(lessonId => {
         const lesson = this.lessons.find(item => item.id === lessonId);
         if (!lesson) return '';
@@ -41,7 +46,8 @@ export class CurriculumController {
     const container = this.document.querySelector('[data-breadcrumbs]');
     if (!container || !this.lesson) return;
     const track = this.curriculum.tracks.find(item => item.id === this.lesson.trackId);
-    container.innerHTML = `<a href="../index.html">HagPy</a> / <span data-i18n="${track.titleKey}"></span> / <span data-i18n="${this.lesson.titleKey}"></span>`;
+    const trackCrumb = track ? ` / <span data-i18n="${track.titleKey}"></span>` : '';
+    container.innerHTML = `<a href="../index.html">HagPy</a>${trackCrumb} / <span data-i18n="${this.lesson.titleKey}"></span>`;
   }
 
   #renderPosition() {

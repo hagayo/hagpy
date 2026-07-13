@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import { access, readdir, readFile } from 'node:fs/promises';
 import test from 'node:test';
-import { tracks as curriculumTracks } from '../content/curriculum.js';
+import { openingLessonId, tracks as curriculumTracks } from '../content/curriculum.js';
 import { lessonRecords } from '../content/lesson-records.js';
 import { loadCurriculum } from '../content/lesson-loader.js';
 
 const root = new URL('../', import.meta.url);
-const { lessons, tracks } = await loadCurriculum(curriculumTracks);
+const { lessons, tracks } = await loadCurriculum(curriculumTracks, { openingLessonId });
 
 test('every locale catalog has the same non-empty key set', async () => {
   const manifest = JSON.parse(await readFile(new URL('assets/locales/manifest.json', root), 'utf8'));
@@ -43,13 +43,13 @@ test('curriculum generates one page per lesson', async () => {
   const htmlPages = pageNames.filter(name => name.endsWith('.html')).sort();
   const expectedPages = lessons.map(lesson => `${lesson.slug}.html`).sort();
 
-  assert.equal(lessons.length, 71);
+  assert.equal(lessons.length, 72);
   assert.equal(htmlPages.length, expectedPages.length);
   assert.deepEqual(htmlPages, expectedPages);
 });
 
 test('curriculum uses stable numeric ids and lesson content lives in Markdown', async () => {
-  assert.equal(lessons.length, 71);
+  assert.equal(lessons.length, 72);
 
   const recordIds = new Set(lessonRecords.map(record => record.id));
   assert.equal(recordIds.size, lessonRecords.length);
@@ -72,10 +72,11 @@ test('curriculum uses stable numeric ids and lesson content lives in Markdown', 
 
 test('runtime curriculum manifest separates stable ids from lesson positions', async () => {
   const manifest = JSON.parse(await readFile(new URL('assets/data/curriculum.json', root), 'utf8'));
-  assert.equal(manifest.totalLessons, 71);
+  assert.equal(manifest.totalLessons, 72);
+  assert.equal(manifest.openingLessonId, 72);
 
   const positions = manifest.lessons.map(lesson => lesson.position);
-  assert.deepEqual(positions, Array.from({ length: 71 }, (_, index) => index + 1));
+  assert.deepEqual(positions, Array.from({ length: 72 }, (_, index) => index + 1));
 
   for (const lesson of manifest.lessons) {
     assert.equal(typeof lesson.id, 'number');
@@ -91,7 +92,7 @@ test('lesson pages defer navigation, breadcrumbs and sidebar composition to runt
   const html = await readFile(new URL('pages/uv.html', root), 'utf8');
   const config = JSON.parse(html.match(/<script id="page-config" type="application\/json">([^<]+)<\/script>/)[1]);
 
-  assert.deepEqual(config, { lessonId: 8, totalLessons: 71, exercise: null });
+  assert.deepEqual(config, { lessonId: 8, totalLessons: 72, exercise: null });
   assert.match(html, /data-curriculum-sidebar/);
   assert.match(html, /data-breadcrumbs/);
   assert.match(html, /data-lesson-position/);
@@ -119,6 +120,22 @@ test('first chapters follow the approved learning order', () => {
     'העלאת הפרויקט ל-GitHub',
     'פרסום באמצעות GitHub Pages'
   ]);
+});
+
+test('course welcome is first without changing stable ids or chapter one membership', async () => {
+  assert.equal(openingLessonId, 72);
+  assert.equal(lessons[0].id, 72);
+  assert.equal(lessons[0].position, 1);
+  assert.equal(lessons[0].slug, 'course-welcome');
+  assert.equal(lessons[0].trackId, null);
+  assert.equal(lessons.find(lesson => lesson.id === 1).position, 2);
+  assert.deepEqual(curriculumTracks[0].lessons, [1, 2, 3, 4, 5, 6]);
+
+  const html = await readFile(new URL('pages/course-welcome.html', root), 'utf8');
+  assert.match(html, /data-lesson-navigation/);
+  assert.match(html, /assets\/css\/navigation-refinements\.css/);
+  assert.match(html, /lessons\.course-welcome\.blocks\.6\.title/);
+  assert.doesNotMatch(html, /exercise\.local\.title/);
 });
 
 test('key Hebrew lesson names match the approved wording', () => {

@@ -1,6 +1,7 @@
 {
   "version": 1,
-  "totalLessons": 71,
+  "openingLessonId": 72,
+  "totalLessons": 72,
   "tracks": [
     {
       "id": "start",
@@ -136,8 +137,16 @@
   ],
   "lessons": [
     {
-      "id": 1,
+      "id": 72,
       "position": 1,
+      "slug": "course-welcome",
+      "trackId": null,
+      "titleKey": "lessons.course-welcome.title",
+      "introKey": "lessons.course-welcome.intro"
+    },
+    {
+      "id": 1,
+      "position": 2,
       "slug": "windows-setup",
       "trackId": "start",
       "titleKey": "lessons.windows-setup.title",
@@ -145,7 +154,7 @@
     },
     {
       "id": 2,
-      "position": 2,
+      "position": 3,
       "slug": "install-git",
       "trackId": "start",
       "titleKey": "lessons.install-git.title",
@@ -153,7 +162,7 @@
     },
     {
       "id": 3,
-      "position": 3,
+      "position": 4,
       "slug": "install-uv-python",
       "trackId": "start",
       "titleKey": "lessons.install-uv-python.title",
@@ -161,7 +170,7 @@
     },
     {
       "id": 4,
-      "position": 4,
+      "position": 5,
       "slug": "github-account-repo",
       "trackId": "start",
       "titleKey": "lessons.github-account-repo.title",
@@ -169,7 +178,7 @@
     },
     {
       "id": 5,
-      "position": 5,
+      "position": 6,
       "slug": "verify-installation",
       "trackId": "start",
       "titleKey": "lessons.verify-installation.title",
@@ -177,7 +186,7 @@
     },
     {
       "id": 6,
-      "position": 6,
+      "position": 7,
       "slug": "setup-troubleshooting",
       "trackId": "start",
       "titleKey": "lessons.setup-troubleshooting.title",
@@ -185,7 +194,7 @@
     },
     {
       "id": 7,
-      "position": 7,
+      "position": 8,
       "slug": "project-setup",
       "trackId": "first-project",
       "titleKey": "lessons.project-setup.title",
@@ -193,7 +202,7 @@
     },
     {
       "id": 8,
-      "position": 8,
+      "position": 9,
       "slug": "uv",
       "trackId": "first-project",
       "titleKey": "lessons.uv.title",
@@ -201,7 +210,7 @@
     },
     {
       "id": 9,
-      "position": 9,
+      "position": 10,
       "slug": "first-html-site",
       "trackId": "first-project",
       "titleKey": "lessons.first-html-site.title",
@@ -209,7 +218,7 @@
     },
     {
       "id": 10,
-      "position": 10,
+      "position": 11,
       "slug": "push-first-repository",
       "trackId": "first-project",
       "titleKey": "lessons.push-first-repository.title",
@@ -217,7 +226,7 @@
     },
     {
       "id": 11,
-      "position": 11,
+      "position": 12,
       "slug": "publish-github-pages",
       "trackId": "first-project",
       "titleKey": "lessons.publish-github-pages.title",
@@ -225,7 +234,7 @@
     },
     {
       "id": 12,
-      "position": 12,
+      "position": 13,
       "slug": "syntax",
       "trackId": "python",
       "titleKey": "lessons.syntax.title",
@@ -233,7 +242,7 @@
     },
     {
       "id": 13,
-      "position": 13,
+      "position": 14,
       "slug": "variables-types",
       "trackId": "python",
       "titleKey": "lessons.variables-types.title",
@@ -241,7 +250,7 @@
     },
     {
       "id": 14,
-      "position": 14,
+      "position": 15,
       "slug": "strings",
       "trackId": "python",
       "titleKey": "lessons.strings.title",
@@ -249,7 +258,7 @@
     },
     {
       "id": 15,
-      "position": 15,
+      "position": 16,
       "slug": "conditions",
       "trackId": "python",
       "titleKey": "lessons.conditions.title",
@@ -257,7 +266,7 @@
     },
     {
       "id": 16,
-      "position": 16,
+      "position": 17,
       "slug": "loops",
       "trackId": "python",
       "titleKey": "lessons.loops.title",
@@ -265,7 +274,7 @@
     },
     {
       "id": 17,
-      "position": 17,
+      "position": 18,
       "slug": "collections",
       "trackId": "python",
       "titleKey": "lessons.collections.title",
@@ -273,7 +282,7 @@
     },
     {
       "id": 18,
-      "position": 18,
+      "position": 19,
       "slug": "comprehensions",
       "trackId": "python",
       "titleKey": "lessons.comprehensions.title",
@@ -281,7 +290,7 @@
     },
     {
       "id": 19,
-      "position": 19,
+      "position": 20,
       "slug": "functions",
       "trackId": "functions",
       "titleKey": "lessons.functions.title",
@@ -289,7 +298,7 @@
     },
     {
       "id": 20,
-      "position": 20,
+      "position": 21,
       "slug": "function-design",
       "trackId": "functions",
       "titleKey": "lessons.function-design.title",
@@ -297,7 +306,7 @@
     },
     {
       "id": 21,
-      "position": 21,
+      "position": 22,
       "slug": "modules-packages",
       "trackId": "functions",
       "titleKey": "lessons.modules-packages.title",
@@ -305,7 +314,7 @@
     },
     {
       "id": 22,
-      "position": 22,
+      "position": 23,
       "slug": "errors",
       "trackId": "functions",
       "titleKey": "lessons.errors.title",
@@ -313,7 +322,7 @@
     },
     {
       "id": 23,
-      "position": 23,
+      "position": 24,
       "slug": "files",
       "trackId": "functions",
       "titleKey": "lessons.files.title",
@@ -321,7 +330,7 @@
     },
     {
       "id": 24,
-      "position": 24,
+      "position": 25,
       "slug": "classes",
       "trackId": "oop",
       "titleKey": "lessons.classes.title",
@@ -329,7 +338,7 @@
     },
     {
       "id": 25,
-      "position": 25,
+      "position": 26,
       "slug": "dataclasses",
       "trackId": "oop",
       "titleKey": "lessons.dataclasses.title",
@@ -337,7 +346,7 @@
     },
     {
       "id": 26,
-      "position": 26,
+      "position": 27,
       "slug": "composition",
       "trackId": "oop",
       "titleKey": "lessons.composition.title",
@@ -345,7 +354,7 @@
     },
     {
       "id": 27,
-      "position": 27,
+      "position": 28,
       "slug": "protocols",
       "trackId": "oop",
       "titleKey": "lessons.protocols.title",
@@ -353,7 +362,7 @@
     },
     {
       "id": 28,
-      "position": 28,
+      "position": 29,
       "slug": "type-hints",
       "trackId": "oop",
       "titleKey": "lessons.type-hints.title",
@@ -361,7 +370,7 @@
     },
     {
       "id": 29,
-      "position": 29,
+      "position": 30,
       "slug": "git",
       "trackId": "workflow",
       "titleKey": "lessons.git.title",
@@ -369,7 +378,7 @@
     },
     {
       "id": 30,
-      "position": 30,
+      "position": 31,
       "slug": "github",
       "trackId": "workflow",
       "titleKey": "lessons.github.title",
@@ -377,7 +386,7 @@
     },
     {
       "id": 31,
-      "position": 31,
+      "position": 32,
       "slug": "testing-concepts",
       "trackId": "quality",
       "titleKey": "lessons.testing-concepts.title",
@@ -385,7 +394,7 @@
     },
     {
       "id": 32,
-      "position": 32,
+      "position": 33,
       "slug": "pytest",
       "trackId": "quality",
       "titleKey": "lessons.pytest.title",
@@ -393,7 +402,7 @@
     },
     {
       "id": 33,
-      "position": 33,
+      "position": 34,
       "slug": "fixtures",
       "trackId": "quality",
       "titleKey": "lessons.fixtures.title",
@@ -401,7 +410,7 @@
     },
     {
       "id": 34,
-      "position": 34,
+      "position": 35,
       "slug": "mocking",
       "trackId": "quality",
       "titleKey": "lessons.mocking.title",
@@ -409,7 +418,7 @@
     },
     {
       "id": 35,
-      "position": 35,
+      "position": 36,
       "slug": "coverage",
       "trackId": "quality",
       "titleKey": "lessons.coverage.title",
@@ -417,7 +426,7 @@
     },
     {
       "id": 36,
-      "position": 36,
+      "position": 37,
       "slug": "ruff-pylint",
       "trackId": "quality",
       "titleKey": "lessons.ruff-pylint.title",
@@ -425,7 +434,7 @@
     },
     {
       "id": 37,
-      "position": 37,
+      "position": 38,
       "slug": "pydantic-models",
       "trackId": "backend",
       "titleKey": "lessons.pydantic-models.title",
@@ -433,7 +442,7 @@
     },
     {
       "id": 38,
-      "position": 38,
+      "position": 39,
       "slug": "pydantic-validation",
       "trackId": "backend",
       "titleKey": "lessons.pydantic-validation.title",
@@ -441,7 +450,7 @@
     },
     {
       "id": 39,
-      "position": 39,
+      "position": 40,
       "slug": "rest",
       "trackId": "backend",
       "titleKey": "lessons.rest.title",
@@ -449,7 +458,7 @@
     },
     {
       "id": 40,
-      "position": 40,
+      "position": 41,
       "slug": "fastapi-routes",
       "trackId": "backend",
       "titleKey": "lessons.fastapi-routes.title",
@@ -457,7 +466,7 @@
     },
     {
       "id": 41,
-      "position": 41,
+      "position": 42,
       "slug": "fastapi-architecture",
       "trackId": "backend",
       "titleKey": "lessons.fastapi-architecture.title",
@@ -465,7 +474,7 @@
     },
     {
       "id": 42,
-      "position": 42,
+      "position": 43,
       "slug": "fastapi-errors",
       "trackId": "backend",
       "titleKey": "lessons.fastapi-errors.title",
@@ -473,7 +482,7 @@
     },
     {
       "id": 43,
-      "position": 43,
+      "position": 44,
       "slug": "production",
       "trackId": "backend",
       "titleKey": "lessons.production.title",
@@ -481,7 +490,7 @@
     },
     {
       "id": 44,
-      "position": 44,
+      "position": 45,
       "slug": "service-layer",
       "trackId": "product",
       "titleKey": "lessons.service-layer.title",
@@ -489,7 +498,7 @@
     },
     {
       "id": 45,
-      "position": 45,
+      "position": 46,
       "slug": "repository-pattern",
       "trackId": "product",
       "titleKey": "lessons.repository-pattern.title",
@@ -497,7 +506,7 @@
     },
     {
       "id": 46,
-      "position": 46,
+      "position": 47,
       "slug": "secrets-env",
       "trackId": "product",
       "titleKey": "lessons.secrets-env.title",
@@ -505,7 +514,7 @@
     },
     {
       "id": 47,
-      "position": 47,
+      "position": 48,
       "slug": "frontend-fastapi",
       "trackId": "product",
       "titleKey": "lessons.frontend-fastapi.title",
@@ -513,7 +522,7 @@
     },
     {
       "id": 48,
-      "position": 48,
+      "position": 49,
       "slug": "fetch-api",
       "trackId": "product",
       "titleKey": "lessons.fetch-api.title",
@@ -521,7 +530,7 @@
     },
     {
       "id": 49,
-      "position": 49,
+      "position": 50,
       "slug": "json-data",
       "trackId": "product",
       "titleKey": "lessons.json-data.title",
@@ -529,7 +538,7 @@
     },
     {
       "id": 50,
-      "position": 50,
+      "position": 51,
       "slug": "http-crud-methods",
       "trackId": "product",
       "titleKey": "lessons.http-crud-methods.title",
@@ -537,7 +546,7 @@
     },
     {
       "id": 51,
-      "position": 51,
+      "position": 52,
       "slug": "frontend-loading-errors",
       "trackId": "product",
       "titleKey": "lessons.frontend-loading-errors.title",
@@ -545,7 +554,7 @@
     },
     {
       "id": 52,
-      "position": 52,
+      "position": 53,
       "slug": "http-status-codes",
       "trackId": "product",
       "titleKey": "lessons.http-status-codes.title",
@@ -553,7 +562,7 @@
     },
     {
       "id": 53,
-      "position": 53,
+      "position": 54,
       "slug": "pydantic-validation-errors",
       "trackId": "product",
       "titleKey": "lessons.pydantic-validation-errors.title",
@@ -561,7 +570,7 @@
     },
     {
       "id": 54,
-      "position": 54,
+      "position": 55,
       "slug": "same-origin-cors",
       "trackId": "product",
       "titleKey": "lessons.same-origin-cors.title",
@@ -569,7 +578,7 @@
     },
     {
       "id": 55,
-      "position": 55,
+      "position": 56,
       "slug": "databases-overview",
       "trackId": "product",
       "titleKey": "lessons.databases-overview.title",
@@ -577,7 +586,7 @@
     },
     {
       "id": 56,
-      "position": 56,
+      "position": 57,
       "slug": "mongodb-basics",
       "trackId": "product",
       "titleKey": "lessons.mongodb-basics.title",
@@ -585,7 +594,7 @@
     },
     {
       "id": 57,
-      "position": 57,
+      "position": 58,
       "slug": "postgresql-basics",
       "trackId": "product",
       "titleKey": "lessons.postgresql-basics.title",
@@ -593,7 +602,7 @@
     },
     {
       "id": 58,
-      "position": 58,
+      "position": 59,
       "slug": "redis-cache",
       "trackId": "product",
       "titleKey": "lessons.redis-cache.title",
@@ -601,7 +610,7 @@
     },
     {
       "id": 59,
-      "position": 59,
+      "position": 60,
       "slug": "docker-basics",
       "trackId": "product",
       "titleKey": "lessons.docker-basics.title",
@@ -609,7 +618,7 @@
     },
     {
       "id": 60,
-      "position": 60,
+      "position": 61,
       "slug": "docker-fastapi",
       "trackId": "product",
       "titleKey": "lessons.docker-fastapi.title",
@@ -617,7 +626,7 @@
     },
     {
       "id": 61,
-      "position": 61,
+      "position": 62,
       "slug": "cicd-overview",
       "trackId": "product",
       "titleKey": "lessons.cicd-overview.title",
@@ -625,7 +634,7 @@
     },
     {
       "id": 62,
-      "position": 62,
+      "position": 63,
       "slug": "github-actions-cicd",
       "trackId": "product",
       "titleKey": "lessons.github-actions-cicd.title",
@@ -633,7 +642,7 @@
     },
     {
       "id": 63,
-      "position": 63,
+      "position": 64,
       "slug": "glossary",
       "trackId": "reference",
       "titleKey": "lessons.glossary.title",
@@ -641,7 +650,7 @@
     },
     {
       "id": 64,
-      "position": 64,
+      "position": 65,
       "slug": "cheat-sheets",
       "trackId": "reference",
       "titleKey": "lessons.cheat-sheets.title",
@@ -649,7 +658,7 @@
     },
     {
       "id": 65,
-      "position": 65,
+      "position": 66,
       "slug": "uv-command-index",
       "trackId": "reference",
       "titleKey": "lessons.uv-command-index.title",
@@ -657,7 +666,7 @@
     },
     {
       "id": 66,
-      "position": 66,
+      "position": 67,
       "slug": "git-command-index",
       "trackId": "reference",
       "titleKey": "lessons.git-command-index.title",
@@ -665,7 +674,7 @@
     },
     {
       "id": 67,
-      "position": 67,
+      "position": 68,
       "slug": "pytest-index",
       "trackId": "reference",
       "titleKey": "lessons.pytest-index.title",
@@ -673,7 +682,7 @@
     },
     {
       "id": 68,
-      "position": 68,
+      "position": 69,
       "slug": "python-exceptions",
       "trackId": "reference",
       "titleKey": "lessons.python-exceptions.title",
@@ -681,7 +690,7 @@
     },
     {
       "id": 69,
-      "position": 69,
+      "position": 70,
       "slug": "troubleshooting",
       "trackId": "reference",
       "titleKey": "lessons.troubleshooting.title",
@@ -689,7 +698,7 @@
     },
     {
       "id": 70,
-      "position": 70,
+      "position": 71,
       "slug": "faq",
       "trackId": "reference",
       "titleKey": "lessons.faq.title",
@@ -697,7 +706,7 @@
     },
     {
       "id": 71,
-      "position": 71,
+      "position": 72,
       "slug": "accessibility-ui-testing",
       "trackId": "reference",
       "titleKey": "lessons.accessibility-ui-testing.title",

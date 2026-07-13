@@ -95,7 +95,7 @@ export class LearnerController {
     const profileButton = document.querySelector('[data-profile-button]');
     if (profileButton) profileButton.textContent = this.profile.isConfigured ? this.profile.displayName : this.i18n.t('learner.profile');
 
-    const completed = this.progress.completedLessons.size;
+    const completed = this.progress.completedLessonIds.size;
     document.querySelectorAll('[data-progress-count]').forEach(element => { element.textContent = String(completed); });
     document.querySelectorAll('[data-progress-percent]').forEach(element => { element.textContent = `${this.progress.percentage(this.config.totalLessons)}%`; });
 
