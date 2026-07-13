@@ -25,6 +25,7 @@ function readPageConfig() {
 }
 
 async function bootstrap() {
+  document.documentElement.dataset.appStatus = 'loading';
   const config = readPageConfig();
   const storage = new SafeStorage();
   const sessionStorage = new SafeStorage(window.sessionStorage);
@@ -51,9 +52,12 @@ async function bootstrap() {
       events,
     ).initialize();
   }
+
+  document.documentElement.dataset.appStatus = 'ready';
 }
 
 bootstrap().catch(error => {
+  document.documentElement.dataset.appStatus = 'error';
   console.error('HagPy could not start', error);
   const toast = document.querySelector('.toast');
   if (toast) {

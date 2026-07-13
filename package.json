@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "node tools/build.js",
-    "test": "node --test"
+    "test": "node --test",
+    "preview": "node tools/serve.js",
+    "test:e2e:serve": "node tools/serve.js --e2e"
   }
 }

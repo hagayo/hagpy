@@ -1,0 +1,33 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #eef4fb;
+  color: #102a50;
+}
+
+main {
+  width: min(1180px, calc(100% - 32px));
+  margin: 24px auto;
+}
+
+#results {
+  display: grid;
+  gap: 8px;
+  padding-inline-start: 28px;
+}
+
+.pass { color: #08783e; }
+.fail { color: #b42318; font-weight: 700; }
+
+iframe {
+  width: 100%;
+  min-height: 620px;
+  margin-top: 20px;
+  border: 1px solid #9db7d7;
+  border-radius: 12px;
+  background: white;
+}

@@ -4,7 +4,7 @@ HagPy is a static, bilingual learning platform for modern Python development, fr
 
 ## Curriculum
 
-The generated site contains 70 lessons across these tracks:
+The generated site contains 72 lessons across these tracks:
 
 - Local setup, uv and terminal fundamentals
 - A complete Windows 10/11 installation trail from Git and uv to a first live GitHub Pages website
@@ -61,6 +61,17 @@ python -m http.server 8000
 ```
 
 Open `http://localhost:8000`.
+
+The dependency-free preview server can also be started with:
+
+```bash
+npm run preview
+```
+
+Before publishing, run `npm run test:e2e:serve` and open
+`http://127.0.0.1:8000/e2e/` in a browser. The smoke test loads a real lesson
+and verifies application startup, assets, curriculum navigation, translations,
+language and theme switching, persistence, and LTR code rendering.
 
 Modules are loaded with native ES modules, so opening the HTML directly with a `file://` URL is not supported by every browser.
 
